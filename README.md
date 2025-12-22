@@ -205,6 +205,8 @@
 <body>
   <div class="container">
   <h1>Sectional Predictor</h1>
+  Ratings by Jeff Sagarin's ratings (used with permission)
+</div>
   <div class="muted">Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.</div>
 
   <!-- Shared controls (JS expects these ids to exist) -->
