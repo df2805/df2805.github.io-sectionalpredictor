@@ -6,95 +6,204 @@
   <title>Indiana Sectional Predictor</title>
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
+  :root{
+    --bg:#f6f7f9;
+    --card:#ffffff;
+    --border:#e5e7eb;
+    --text:#111827;
+    --muted:#6b7280;
+    --shadow: 0 6px 18px rgba(0,0,0,.06);
+    --radius:14px;
+  }
 
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 20px; }
-    h1 { margin: 0 0 10px; }
-    .muted { color: #666; font-size: 13px; }
+  *, *::before, *::after { box-sizing: border-box; }
 
-    .tabs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-    .tabbtn { padding: 10px 12px; border: 1px solid #ccc; border-radius: 10px; background: #fff; cursor: pointer; }
-    .tabbtn.active { border-color: #111; font-weight: 800; }
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+  }
 
-    .panel { display: none; margin-top: 12px; }
-    .panel.active { display: block; }
+  .container{
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 18px;
+  }
 
-    .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; background: #fff; }
+  h1 { margin: 0 0 8px; letter-spacing: -0.02em; }
+  .muted { color: var(--muted); font-size: 13px; }
 
-    .left { flex: 1 1 520px; min-width: 280px; max-width: 100%; }
-    .right { flex: 1 1 340px; min-width: 280px; max-width: 100%; }
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .tabbtn {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card);
+    cursor: pointer;
+    font-weight: 650;
+  }
+  .tabbtn.active {
+    border-color: #111;
+    box-shadow: var(--shadow);
+  }
 
-    .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #f2f2f2; font-size: 12px; }
+  .panel { display: none; margin-top: 14px; }
+  .panel.active { display: block; }
 
-    input[type="number"], select {
-      padding: 6px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      max-width: 100%;
-    }
-    input[type="number"] { width: 110px; }
-    select { max-width: 260px; }
-    .note { margin-top: 6px; font-size: 12px; color: #555; }
+  /* Layout */
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
 
-    .btn{
-      padding: 8px 10px;
-      border: 1px solid #ccc;
-      background: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      max-width: 100%;
-      white-space: normal;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-      text-align: center;
-      min-width: 160px;
-    }
-    .btn:hover { background: #f6f6f6; }
-    .btn.win { border-color: #111; font-weight: 800; }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+  }
 
-    .game { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin: 10px 0; overflow: hidden; }
-    .game-title { font-weight: 800; margin-bottom: 6px; }
+  .left { flex: 1 1 620px; min-width: 300px; }
+  .right { flex: 1 1 360px; min-width: 300px; }
 
-    .split{
-      display:grid;
-      grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr);
-      gap:12px;
-      align-items:center;
-    }
+  .controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 
-    .center { text-align: center; font-size: 12px; color: #444; }
-    .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .small { font-size: 12px; color: #555; }
-    .hr { height: 1px; background: #eee; margin: 10px 0; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #f3f4f6;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: #374151;
+    font-weight: 650;
+  }
 
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 980px) { .grid2 { grid-template-columns: 1fr; } }
+  input[type="number"], select {
+    padding: 9px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+    max-width: 100%;
+    font-size: 14px;
+  }
+  input[type="number"] { width: 130px; }
+  select { max-width: 280px; }
 
-    pre { white-space: pre-wrap; word-break: break-word; }
+  .note { margin-top: 8px; font-size: 12px; color: #4b5563; }
 
-    @media (max-width: 720px) {
-      body { margin: 12px; }
-      .tabbtn { width: 100%; }
-      input[type="number"], select { width: 100%; max-width: 100%; }
-      select { max-width: 100%; }
-      .controls > * { flex: 1 1 auto; }
+  /* Buttons
+     - default is for control buttons
+     - in game cards we override to full-width
+  */
+  .btn{
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 650;
+    line-height: 1.1;
+  }
+  .btn:hover { background: #f9fafb; }
 
-      .split { grid-template-columns: 1fr; }
-      .center { text-align: left; }
-      .btn { width: 100%; min-width: 0; }
-    }
+  .controls .btn{
+    width: auto;
+    min-width: 150px;
+    white-space: nowrap;
+  }
 
-    @media (max-width: 420px) {
-      body { margin: 10px; }
-      .btn { padding: 10px 10px; }
-    }
-  </style>
+  .btn.win { border-color: #111; box-shadow: 0 0 0 2px rgba(17,17,17,.08) inset; }
+
+  /* Bracket */
+  .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
+
+  .game {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+    margin: 10px 0;
+    background: #fff;
+  }
+  .game-title { font-weight: 800; margin-bottom: 8px; }
+
+  .split{
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr);
+    gap:12px;
+    align-items:center;
+  }
+
+  .game .btn{
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    text-align: center;
+  }
+
+  .center { text-align: center; font-size: 12px; color: #4b5563; }
+
+  .small { font-size: 12px; color: #4b5563; }
+  .hr { height: 1px; background: #e5e7eb; margin: 12px 0; }
+
+  /* Tournament grids */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  #tourSectionalGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 12px;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+  }
+
+  /* output blocks */
+  #simOutput, #tourOdds{
+    max-height: 520px;
+    overflow: auto;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fbfbfc;
+  }
+
+  @media (max-width: 980px) {
+    .grid2 { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 720px) {
+    .container{ padding: 12px; }
+    .tabbtn { width: 100%; }
+    input[type="number"], select { width: 100%; max-width: 100%; }
+    select { max-width: 100%; }
+
+    .controls{ align-items: stretch; }
+    .controls .btn{ width: 100%; min-width: 0; }
+
+    .split { grid-template-columns: 1fr; }
+    .center { text-align: left; }
+  }
+</style>
 </head>
 
 <body>
+  <div class="container">
   <h1>Sectional Predictor</h1>
   <div class="muted">Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.</div>
 
@@ -1103,5 +1212,6 @@
   runTests();
   initUI();
 </script>
+  </div>
 </body>
 </html>
