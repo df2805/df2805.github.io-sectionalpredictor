@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Indiana Sectional Predictor</title>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; }
 
@@ -24,36 +25,46 @@
     .left { flex: 1 1 520px; min-width: 280px; max-width: 100%; }
     .right { flex: 1 1 340px; min-width: 280px; max-width: 100%; }
 
-    .btn { padding: 8px 10px; border: 1px solid #ccc; background: #fff; border-radius: 8px; cursor: pointer; }
-    .btn:hover { background: #f6f6f6; }
-    .btn.win { border-color: #111; font-weight: 800; }
-
     .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
     .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #f2f2f2; font-size: 12px; }
-    input[type="number"], select { padding: 6px; border-radius: 8px; border: 1px solid #ccc; max-width: 100%; }
+
+    input[type="number"], select {
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      max-width: 100%;
+    }
     input[type="number"] { width: 110px; }
     select { max-width: 260px; }
     .note { margin-top: 6px; font-size: 12px; color: #555; }
 
+    .btn{
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+
+      /* stops vertical letter stacking */
+      white-space: normal;
+      overflow-wrap: normal;
+      word-break: normal;
+
+      /* gives team names room */
+      min-width: 160px;
+    }
+    .btn:hover { background: #f6f6f6; }
+    .btn.win { border-color: #111; font-weight: 800; }
+
     .game { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin: 10px 0; overflow: hidden; }
     .game-title { font-weight: 800; margin-bottom: 6px; }
-.split {
-  display: grid;
-  grid-template-columns: minmax(160px, 1fr) 120px minmax(160px, 1fr);
-  gap: 12px;
-  align-items: center;
-}
 
-.btn {
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  background: #fff;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 100%;          /* fills its column */
-  white-space: normal;  /* allows normal wrapping if needed */
-  overflow-wrap: anywhere;
-}
+    .split{
+      display: grid;
+      grid-template-columns: minmax(160px, 1fr) max-content minmax(160px, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
 
     .center { text-align: center; font-size: 12px; color: #444; }
     .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
@@ -71,9 +82,11 @@
       input[type="number"], select { width: 100%; max-width: 100%; }
       select { max-width: 100%; }
       .controls > * { flex: 1 1 auto; }
+
+      /* on mobile: stack vertically */
       .split { grid-template-columns: 1fr; }
       .center { text-align: left; }
-      .btn { width: 100%; }
+      .btn { width: 100%; min-width: 0; }
     }
 
     @media (max-width: 420px) {
@@ -82,6 +95,7 @@
     }
   </style>
 </head>
+
 <body>
   <h1>Sectional Predictor</h1>
   <div class="muted">Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.</div>
@@ -89,76 +103,8 @@
   <div class="card" style="margin-top:12px;">
     <div class="controls">
       <span class="pill">Home adv</span>
-      <input type="number" id="homeAdv" value="2.0" step="0.5" />
-      <span class="pill">Sims</span>
-      <input type="number" id="simCount" value="20000" min="1000" step="1000" />
-    </div>
-    <div class="note">Home advantage applies only when the host team is in the game. In tournament tab, sectional hosts are fixed.</div>
-  </div>
+      <input type="number" id="homeAdv" value="2.0" step="
 
-  <div class="tabs">
-    <button class="tabbtn active" id="tabSectional">Single Sectional</button>
-    <button class="tabbtn" id="tabTournament">Full Tournament</button>
-  </div>
-
-  <div class="panel active" id="panelSectional">
-    <div class="card">
-      <div class="controls">
-        <span class="pill">Sectional</span>
-        <select id="sectionalSelect"></select>
-
-        <span class="pill">Host</span>
-        <select id="hostSelect"></select>
-
-        <button class="btn" id="genDraw">Generate Draw</button>
-        <button class="btn" id="resetPicks">Reset Picks</button>
-        <button class="btn" id="runSims">Run Odds</button>
-      </div>
-      <div class="note" id="formatNote"></div>
-    </div>
-
-    <div class="row" style="margin-top:12px;">
-      <div class="card left">
-        <h3 style="margin:0 0 10px;">Bracket</h3>
-        <div class="small" id="drawInfo">Pick a sectional and click Generate Draw.</div>
-        <div class="bracket" id="bracket"></div>
-      </div>
-
-      <div class="card right">
-        <h3 style="margin:0 0 8px;">Odds</h3>
-        <div class="muted">Odds reflect your locked picks. Unpicked games get simulated from ratings.</div>
-        <div style="margin-top:8px;" id="simOutput"><span class="muted">Run odds to see results.</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel" id="panelTournament">
-    <div class="card">
-      <div class="controls">
-        <button class="btn" id="tourGenAll">Generate All Sectional Draws</button>
-        <button class="btn" id="tourDrawRegionals">Draw Regionals</button>
-        <button class="btn" id="tourReset">Reset Tournament Picks</button>
-        <button class="btn" id="tourRunOdds">Run Tournament Odds</button>
-      </div>
-      <div class="note" id="tourNote">Step 1: Generate sectional draws. Step 2: Draw regionals. Step 3: pick winners anywhere and run odds.</div>
-    </div>
-
-    <div class="row" style="margin-top:12px;">
-      <div class="card left">
-        <h3 style="margin:0 0 10px;">Big Bracket</h3>
-        <div class="small" id="tourDrawInfo">Generate sectional draws to start.</div>
-        <div class="grid2" id="tourSectionalGrid"></div>
-        <div class="hr"></div>
-        <div id="tourRegionalBlock"></div>
-      </div>
-
-      <div class="card right">
-        <h3 style="margin:0 0 8px;">Tournament Odds</h3>
-        <div class="muted">Odds reflect your locked picks across all sectionals + regionals + final.</div>
-        <div style="margin-top:8px;" id="tourOdds"><span class="muted">Run tournament odds to see results.</span></div>
-      </div>
-    </div>
-  </div>
 
 <script>
   const SECTIONALS = {
