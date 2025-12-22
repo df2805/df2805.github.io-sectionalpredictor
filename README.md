@@ -8,35 +8,25 @@
   <title>Indiana Sectional Predictor</title>
 
   <style>
-    :root{
-      --bg:#f6f7f9;
-      --card:#ffffff;
-      --border:#e5e7eb;
-      --text:#111827;
-      --muted:#6b7280;
-      --shadow: 0 6px 18px rgba(0,0,0,.06);
-      --radius:14px;
-    }
+ <body>
+  <div class="container">
+    <h1>Sectional Predictor</h1>
+    <div class="muted">
+      Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.
+    </div>
 
-    *, *::before, *::after { box-sizing: border-box; }
+    <!-- Shared controls (JS expects these ids to exist) -->
+    <div class="card" style="margin-top:12px;">
+      <div class="controls">
+        <span class="pill">Home adv</span>
+        <input type="number" id="homeAdv" value="1.7" step="0.1" />
 
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-    }
+        <span class="pill">Sims</span>
+        <input type="number" id="simCount" value="20000" step="1000" min="1000" />
 
-    .container{
-      max-width: 1150px;
-      margin: 0 auto;
-      padding: 18px;
-    }
-
-    h1 { margin: 0 0 8px; letter-spacing: -0.02em; }
-    .muted { color: var(--muted); font-size: 13px; }
-
-    /* ... keep the rest of your CSS exactly as-is ... */
+        <span class="muted" style="margin-left:auto;">Higher sims = slower but steadier odds.</span>
+      </div>
+    </div>
   </style>
 </head>
 
