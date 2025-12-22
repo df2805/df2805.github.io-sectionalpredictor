@@ -37,11 +37,23 @@
 
     .game { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin: 10px 0; overflow: hidden; }
     .game-title { font-weight: 800; margin-bottom: 6px; }
-   .split {
+ .split {
   display: grid;
   grid-template-columns: auto 120px auto;
   gap: 12px;
+  align-items: center;
 }
+
+.btn {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
     .center { text-align: center; font-size: 12px; color: #444; }
     .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
     .small { font-size: 12px; color: #555; }
