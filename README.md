@@ -1,15 +1,49 @@
-[<!doctype html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Browser tab title -->
   <title>Indiana Sectional Predictor</title>
 
   <style>
-  
-  -<body>
-- ‹div class="container"›
-<h1>Sectional Predictor</h1>
+    :root{
+      --bg:#f6f7f9;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --text:#111827;
+      --muted:#6b7280;
+      --shadow: 0 6px 18px rgba(0,0,0,.06);
+      --radius:14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container{
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    h1 { margin: 0 0 8px; letter-spacing: -0.02em; }
+    .muted { color: var(--muted); font-size: 13px; }
+
+    /* ... keep the rest of your CSS exactly as-is ... */
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Big heading on the page -->
+    <h1>Sectional Predictor</h1>
   
   :root{
     --bg:#f6f7f9;
