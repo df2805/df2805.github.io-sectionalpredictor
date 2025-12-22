@@ -37,7 +37,11 @@
 
     .game { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin: 10px 0; overflow: hidden; }
     .game-title { font-weight: 800; margin-bottom: 6px; }
-    .split { display: grid; grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr); gap: 8px; align-items: center; }
+   .split {
+  display: grid;
+  grid-template-columns: auto 120px auto;
+  gap: 12px;
+}
     .center { text-align: center; font-size: 12px; color: #444; }
     .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
     .small { font-size: 12px; color: #555; }
