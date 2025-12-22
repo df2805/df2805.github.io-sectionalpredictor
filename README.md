@@ -291,6 +291,16 @@
     </div>
   </div>
 
+>
+    <div>
+      Ratings Source: Jeff Sagarin™ Indiana High School Boys Basketball Ratings<br />
+      © 2025 Jeff Sagarin. Data provided by John Harrell.
+    </div>
+  </footer>
+</body>
+</html>
+
+
 <script>
   const SECTIONALS = {
     "Elkhart": {
