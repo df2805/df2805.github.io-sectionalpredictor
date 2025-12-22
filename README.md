@@ -37,9 +37,9 @@
 
     .game { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin: 10px 0; overflow: hidden; }
     .game-title { font-weight: 800; margin-bottom: 6px; }
- .split {
+.split {
   display: grid;
-  grid-template-columns: auto 120px auto;
+  grid-template-columns: minmax(160px, 1fr) 120px minmax(160px, 1fr);
   gap: 12px;
   align-items: center;
 }
@@ -50,8 +50,9 @@
   background: #fff;
   border-radius: 8px;
   cursor: pointer;
-  white-space: nowrap;
-  min-width: 120px;
+  width: 100%;          /* fills its column */
+  white-space: normal;  /* allows normal wrapping if needed */
+  overflow-wrap: anywhere;
 }
 
     .center { text-align: center; font-size: 12px; color: #444; }
