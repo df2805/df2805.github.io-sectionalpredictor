@@ -44,13 +44,12 @@
       background: #fff;
       border-radius: 8px;
       cursor: pointer;
-
-      /* stops vertical letter stacking */
+      width: 100%;
+      max-width: 100%;
       white-space: normal;
-      overflow-wrap: normal;
-      word-break: normal;
-
-      /* gives team names room */
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      text-align: center;
       min-width: 160px;
     }
     .btn:hover { background: #f6f6f6; }
@@ -59,28 +58,12 @@
     .game { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin: 10px 0; overflow: hidden; }
     .game-title { font-weight: 800; margin-bottom: 6px; }
 
-   .split{
-  display:grid;
-  grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr);
-  gap:12px;
-  align-items:center;
-}
-
-.btn{
-  padding:8px 10px;
-  border:1px solid #ccc;
-  background:#fff;
-  border-radius:8px;
-  cursor:pointer;
-
-  width:100%;
-  max-width:100%;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  text-align:center;
-}
-
+    .split{
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr);
+      gap:12px;
+      align-items:center;
+    }
 
     .center { text-align: center; font-size: 12px; color: #444; }
     .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
@@ -99,7 +82,6 @@
       select { max-width: 100%; }
       .controls > * { flex: 1 1 auto; }
 
-      /* on mobile: stack vertically */
       .split { grid-template-columns: 1fr; }
       .center { text-align: left; }
       .btn { width: 100%; min-width: 0; }
@@ -116,11 +98,87 @@
   <h1>Sectional Predictor</h1>
   <div class="muted">Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.</div>
 
+  <!-- Shared controls (JS expects these ids to exist) -->
   <div class="card" style="margin-top:12px;">
     <div class="controls">
       <span class="pill">Home adv</span>
-      <input type="number" id="homeAdv" value="2.0" step="
+      <input type="number" id="homeAdv" value="2.0" step="0.1" />
 
+      <span class="pill">Sims</span>
+      <input type="number" id="simCount" value="20000" step="1000" min="1000" />
+
+      <span class="muted" style="margin-left:auto;">Higher sims = slower but steadier odds.</span>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tabbtn active" id="tabSectional">Single sectional</button>
+    <button class="tabbtn" id="tabTournament">Full tournament</button>
+  </div>
+
+  <!-- Panel 1: single sectional -->
+  <div class="panel active" id="panelSectional">
+    <div class="row">
+      <div class="card left">
+        <div class="controls">
+          <span class="pill">Sectional</span>
+          <select id="sectionalSelect"></select>
+
+          <span class="pill">Host</span>
+          <select id="hostSelect"></select>
+
+          <button class="btn" id="genDraw" style="min-width: 140px;">Generate draw</button>
+          <button class="btn" id="resetPicks" style="min-width: 140px;">Reset picks</button>
+          <button class="btn" id="runSims" style="min-width: 140px;">Run odds</button>
+        </div>
+
+        <div class="note">
+          <div id="drawInfo" class="muted">Pick a sectional and click Generate Draw.</div>
+          <div id="formatNote" class="small"></div>
+        </div>
+
+        <div id="bracket" class="bracket" style="margin-top:12px;"></div>
+      </div>
+
+      <div class="card right">
+        <div style="font-weight:800; margin-bottom:6px;">Odds output</div>
+        <div id="simOutput"><span class="muted">Run odds to see results.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel 2: full tournament -->
+  <div class="panel" id="panelTournament">
+    <div class="card">
+      <div class="controls">
+        <button class="btn" id="tourGenAll" style="min-width: 200px;">Generate all sectional draws</button>
+        <button class="btn" id="tourDrawRegionals" style="min-width: 180px;">Draw regionals</button>
+        <button class="btn" id="tourReset" style="min-width: 160px;">Reset picks</button>
+        <button class="btn" id="tourRunOdds" style="min-width: 160px;">Run tournament odds</button>
+      </div>
+      <div class="note">
+        <div id="tourDrawInfo" class="muted">Generate sectional draws to start.</div>
+      </div>
+
+      <div class="grid2" style="margin-top:12px;">
+        <div class="card">
+          <div style="font-weight:800; margin-bottom:6px;">Sectionals</div>
+          <div id="tourSectionalGrid" class="grid2"></div>
+        </div>
+
+        <div class="card">
+          <div style="font-weight:800; margin-bottom:6px;">Regionals + Final</div>
+          <div id="tourRegionalBlock"></div>
+
+          <div class="hr"></div>
+
+          <div style="font-weight:800; margin-bottom:6px;">Odds output</div>
+          <div id="tourOdds"><span class="muted">Run tournament odds to see results.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script>
   const SECTIONALS = {
@@ -689,12 +747,6 @@
 
     $("tourDrawInfo").textContent = `Regional draw: Winner(${tour.pairing[0]}) vs Winner(${tour.pairing[1]}), and Winner(${tour.pairing[2]}) vs Winner(${tour.pairing[3]}).`;
 
-    const regTitle = document.createElement("div");
-    regTitle.style.fontWeight = "800";
-    regTitle.style.marginBottom = "6px";
-    regTitle.textContent = "Regionals + Final";
-    regBlock.appendChild(regTitle);
-
     const ratingAll = buildRatingAll();
 
     tourValidateRegionalDownstream();
@@ -980,6 +1032,10 @@
       validateDownstreamLocal(games, picks);
       renderSectional();
       renderTournament();
+    };
+
+    $("simCount").onchange = () => {
+      // no-op; just ensures it parses to a number
     };
 
     $("genDraw").onclick = () => {
