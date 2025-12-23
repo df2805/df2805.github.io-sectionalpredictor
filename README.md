@@ -142,6 +142,13 @@
       </div>
     </div>
   </div>
+<footer>
+  <div style="margin-top:40px;padding-top:12px;border-top:1px solid #eee;font-size:12px;color:#555;">
+    Ratings Source: Jeff Sagarin™ Indiana High School Boys Basketball Ratings<br />
+    © 2025 Jeff Sagarin. Data provided by John Harrell.
+  </div>
+</footer>
+</body>
 
 <script>
   const SECTIONALS = {
