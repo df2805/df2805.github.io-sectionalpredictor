@@ -148,7 +148,6 @@
     © 2025 Jeff Sagarin. Data provided by John Harrell.
   </div>
 </footer>
-</body>
 
 <script>
   const SECTIONALS = {
