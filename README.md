@@ -154,8 +154,8 @@
     "Elkhart": {
       hostDefault: "Elkhart",
       teams: [
-        { name: "Northridge", rating: 88.20 },
-        { name: "Goshen", rating: 86.18 },
+        { name: "Northridge", rating: 88.314 },
+        { name: "Goshen", rating: 86.289 },
         { name: "Elkhart", rating: 80.35 },
         { name: "Warsaw", rating: 74.70 },
         { name: "Concord", rating: 65.57 }
@@ -164,7 +164,7 @@
     "Crown Point": {
       hostDefault: "Crown Point",
       teams: [
-        { name: "Crown Point", rating: 89.72 },
+        { name: "Crown Point", rating: 91.72 },
         { name: "Lake Central", rating: 81.51 },
         { name: "Munster", rating: 66.98 },
         { name: "Hammond Morton", rating: 60.27 },
@@ -174,8 +174,8 @@
     "Chesterton": {
       hostDefault: "Chesterton",
       teams: [
-        { name: "Chesterton", rating: 92.29 },
-        { name: "Portage", rating: 80.79 },
+        { name: "Chesterton", rating: 92.884 },
+        { name: "Portage", rating: 80.806 },
         { name: "Valparaiso", rating: 74.72 },
         { name: "Merrillville", rating: 66.34 },
         { name: "Hobart", rating: 59.81 }
@@ -184,9 +184,9 @@
     "Mishawaka": {
       hostDefault: "Mishawaka",
       teams: [
-        { name: "Penn", rating: 91.39 },
-        { name: "South Bend Riley", rating: 89.05 },
-        { name: "South Bend St. Joseph", rating: 83.80 },
+        { name: "Penn", rating: 91.515 },
+        { name: "South Bend Riley", rating: 89.472 },
+        { name: "South Bend St. Joseph", rating: 83.816 },
         { name: "Michigan City", rating: 81.36 },
         { name: "South Bend Adams", rating: 76.06 },
         { name: "LaPorte", rating: 72.66 },
