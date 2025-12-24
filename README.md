@@ -7,41 +7,121 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
 
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 20px; }
-    h1 { margin: 0 0 10px; }
-    .muted { color: #666; font-size: 13px; }
+    body {
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      margin: 0;
+      background: radial-gradient(circle at top, #f5f8ff 0%, #f4f6fb 45%, #eef1f7 100%);
+      color: #0f172a;
+    }
+    h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.02em; }
+    .muted { color: #64748b; font-size: 13px; }
 
     .tabs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-    .tabbtn { padding: 10px 12px; border: 1px solid #ccc; border-radius: 10px; background: #fff; cursor: pointer; }
-    .tabbtn.active { border-color: #111; font-weight: 800; }
+    .tabbtn {
+      padding: 10px 14px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: #e2e8f0;
+      cursor: pointer;
+      font-weight: 600;
+      color: #0f172a;
+      transition: all 0.2s ease;
+    }
+    .tabbtn:hover { background: #cbd5f5; }
+    .tabbtn.active {
+      background: #1d4ed8;
+      color: #fff;
+      border-color: #1d4ed8;
+      box-shadow: 0 10px 20px rgba(29, 78, 216, 0.18);
+    }
 
     .panel { display: none; margin-top: 12px; }
     .panel.active { display: block; }
 
     .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; background: #fff; }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      background: #fff;
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+    }
 
     .left { flex: 1 1 520px; min-width: 280px; max-width: 100%; }
     .right { flex: 1 1 340px; min-width: 280px; max-width: 100%; }
 
-    .btn { padding: 8px 10px; border: 1px solid #ccc; background: #fff; border-radius: 8px; cursor: pointer; }
-    .btn:hover { background: #f6f6f6; }
-    .btn.win { border-color: #111; font-weight: 800; }
+    .btn {
+      padding: 9px 12px;
+      border: 1px solid #cbd5f5;
+      background: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #0f172a;
+      transition: all 0.2s ease;
+    }
+    .btn:hover { background: #eef2ff; }
+    .btn.primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-color: #1d4ed8;
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(37, 99, 235, 0.25);
+    }
+    .btn.primary:hover { filter: brightness(1.05); }
+    .btn.win {
+      border-color: #0f172a;
+      box-shadow: inset 0 0 0 2px #0f172a;
+      font-weight: 800;
+    }
 
     .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #f2f2f2; font-size: 12px; }
-    input[type="number"], select { padding: 6px; border-radius: 8px; border: 1px solid #ccc; max-width: 100%; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+    input[type="number"], select {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #cbd5f5;
+      background: #fff;
+      max-width: 100%;
+    }
     input[type="number"] { width: 110px; }
     select { max-width: 260px; }
-    .note { margin-top: 6px; font-size: 12px; color: #555; }
+    .note { margin-top: 6px; font-size: 12px; color: #64748b; }
 
-    .game { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin: 10px 0; overflow: hidden; }
-    .game-title { font-weight: 800; margin-bottom: 6px; }
+    .game {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px;
+      margin: 10px 0;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+    .game-title { font-weight: 700; margin-bottom: 6px; color: #0f172a; }
     .split { display: grid; grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr); gap: 8px; align-items: center; }
     .center { text-align: center; font-size: 12px; color: #444; }
     .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .small { font-size: 12px; color: #555; }
-    .hr { height: 1px; background: #eee; margin: 10px 0; }
+    .small { font-size: 12px; color: #64748b; }
+    .hr { height: 1px; background: #e2e8f0; margin: 10px 0; }
+    .page { max-width: 1200px; margin: 32px auto; padding: 0 20px 48px; }
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 165, 233, 0.08));
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+    .header .muted { font-size: 14px; }
 
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 980px) { .grid2 { grid-template-columns: 1fr; } }
@@ -49,7 +129,7 @@
     pre { white-space: pre-wrap; word-break: break-word; }
 
     @media (max-width: 720px) {
-      body { margin: 12px; }
+      .page { margin: 16px auto; }
       .tabbtn { width: 100%; }
       input[type="number"], select { width: 100%; max-width: 100%; }
       select { max-width: 100%; }
@@ -60,24 +140,27 @@
     }
 
     @media (max-width: 420px) {
-      body { margin: 10px; }
+      .page { margin: 12px auto; }
       .btn { padding: 10px 10px; }
     }
   </style>
 </head>
 <body>
-  <h1>Sectional Predictor</h1>
-  <div class="muted">Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.</div>
-
-  <div class="card" style="margin-top:12px;">
-    <div class="controls">
-      <span class="pill">Home adv</span>
-      <input type="number" id="homeAdv" value="1.8" step="0.5" />
-      <span class="pill">Sims</span>
-      <input type="number" id="simCount" value="20000" min="1000" step="1000" />
+  <div class="page">
+    <div class="header">
+      <h1>Sectional Predictor</h1>
+      <div class="muted">Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.</div>
     </div>
-    <div class="note">Home advantage applies only when the host team is in the game. In tournament tab, sectional hosts are fixed.</div>
-  </div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="controls">
+        <span class="pill">Home adv</span>
+        <input type="number" id="homeAdv" value="1.8" step="0.5" />
+        <span class="pill">Sims</span>
+        <input type="number" id="simCount" value="20000" min="1000" step="1000" />
+      </div>
+      <div class="note">Home advantage applies only when the host team is in the game. In tournament tab, sectional hosts are fixed.</div>
+    </div>
 
   <div class="tabs">
     <button class="tabbtn active" id="tabSectional">Single Sectional</button>
@@ -95,7 +178,7 @@
 
         <button class="btn" id="genDraw">Generate Draw</button>
         <button class="btn" id="resetPicks">Reset Picks</button>
-        <button class="btn" id="runSims">Run Odds</button>
+        <button class="btn primary" id="runSims">Run Odds</button>
       </div>
       <div class="note" id="formatNote"></div>
     </div>
@@ -121,7 +204,7 @@
         <button class="btn" id="tourGenAll">Generate All Sectional Draws</button>
         <button class="btn" id="tourDrawRegionals">Draw Regionals</button>
         <button class="btn" id="tourReset">Reset Tournament Picks</button>
-        <button class="btn" id="tourRunOdds">Run Tournament Odds</button>
+        <button class="btn primary" id="tourRunOdds">Run Tournament Odds</button>
       </div>
       <div class="note" id="tourNote">Step 1: Generate sectional draws. Step 2: Draw regionals. Step 3: pick winners anywhere and run odds.</div>
     </div>
@@ -142,12 +225,13 @@
       </div>
     </div>
   </div>
-<footer>
-  <div style="margin-top:40px;padding-top:12px;border-top:1px solid #eee;font-size:12px;color:#555;">
-    Ratings Source: Jeff Sagarin™ Indiana High School Boys Basketball Ratings<br />
-    © 2025 Jeff Sagarin. Data provided by John Harrell.
+    <footer>
+      <div style="margin-top:40px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b;">
+        Ratings Source: Jeff Sagarin™ Indiana High School Boys Basketball Ratings<br />
+        © 2025 Jeff Sagarin. Data provided by John Harrell.
+      </div>
+    </footer>
   </div>
-</footer>
 
 <script>
   const SECTIONALS = {
