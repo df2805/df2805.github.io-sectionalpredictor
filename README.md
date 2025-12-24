@@ -72,7 +72,7 @@
   <div class="card" style="margin-top:12px;">
     <div class="controls">
       <span class="pill">Home adv</span>
-      <input type="number" id="homeAdv" value="1.7" step="0.5" />
+      <input type="number" id="homeAdv" value="1.8" step="0.5" />
       <span class="pill">Sims</span>
       <input type="number" id="simCount" value="20000" min="1000" step="1000" />
     </div>
@@ -154,43 +154,43 @@
     "Elkhart": {
       hostDefault: "Elkhart",
       teams: [
-        { name: "Northridge", rating: 88.314 },
-        { name: "Goshen", rating: 86.289 },
-        { name: "Elkhart", rating: 80.35 },
-        { name: "Warsaw", rating: 74.70 },
-        { name: "Concord", rating: 65.57 }
+        { name: "Northridge", rating: 87.13 },
+        { name: "Goshen", rating: 82.88 },
+        { name: "Elkhart", rating: 79.53 },
+        { name: "Warsaw", rating: 76.69 },
+        { name: "Concord", rating: 64.94 }
       ]
     },
     "Crown Point": {
       hostDefault: "Crown Point",
       teams: [
-        { name: "Crown Point", rating: 91.72 },
-        { name: "Lake Central", rating: 81.51 },
-        { name: "Munster", rating: 66.98 },
-        { name: "Hammond Morton", rating: 60.27 },
-        { name: "Hammond Central", rating: 60.06 }
+        { name: "Crown Point", rating: 95.15 },
+        { name: "Lake Central", rating: 83.04 },
+        { name: "Munster", rating: 60.65 },
+        { name: "Hammond Morton", rating: 57.41 },
+        { name: "Hammond Central", rating: 59.02 }
       ]
     },
     "Chesterton": {
       hostDefault: "Chesterton",
       teams: [
-        { name: "Chesterton", rating: 92.884 },
-        { name: "Portage", rating: 80.806 },
-        { name: "Valparaiso", rating: 74.72 },
-        { name: "Merrillville", rating: 66.34 },
-        { name: "Hobart", rating: 59.81 }
+        { name: "Chesterton", rating: 88.75 },
+        { name: "Portage", rating: 81.09 },
+        { name: "Valparaiso", rating: 73.05 },
+        { name: "Merrillville", rating: 69.61 },
+        { name: "Hobart", rating: 52.78 }
       ]
     },
     "Mishawaka": {
       hostDefault: "Mishawaka",
       teams: [
-        { name: "Penn", rating: 91.515 },
-        { name: "South Bend Riley", rating: 89.472 },
-        { name: "South Bend St. Joseph", rating: 83.816 },
-        { name: "Michigan City", rating: 81.36 },
-        { name: "South Bend Adams", rating: 76.06 },
-        { name: "LaPorte", rating: 72.66 },
-        { name: "Mishawaka", rating: 63.57 }
+        { name: "Penn", rating: 90.72 },
+        { name: "South Bend Riley", rating: 87.34 },
+        { name: "South Bend St. Joseph", rating: 82.99 },
+        { name: "Michigan City", rating: 80.24 },
+        { name: "South Bend Adams", rating: 73.56 },
+        { name: "LaPorte", rating: 70.02 },
+        { name: "Mishawaka", rating: 62.33 }
       ]
     }
   };
