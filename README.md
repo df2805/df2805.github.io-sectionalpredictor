@@ -428,6 +428,33 @@
     }
   };
 
+  const REGIONAL_POTS = {
+    north: [
+      {
+        id: "P1",
+        label: "Pot 1",
+        sectionals: ["Elkhart", "Mishawaka", "Chesterton", "Crown Point"]
+      },
+      {
+        id: "P2",
+        label: "Pot 2",
+        sectionals: ["Fort Wayne Northrop", "Huntington North", "Lafayette Jeff", "Noblesville"]
+      }
+    ],
+    south: [
+      {
+        id: "P3",
+        label: "Pot 3",
+        sectionals: ["Greenfield-Central", "Indianapolis Arsenal Tech", "Plainfield", "Mooresville"]
+      },
+      {
+        id: "P4",
+        label: "Pot 4",
+        sectionals: ["Martinsville", "Columbus North", "Seymour", "Evansville North"]
+      }
+    ]
+  };
+
   let currentSectionalKey = "Elkhart";
   let teamList = [];
   let rating = {};
@@ -439,9 +466,10 @@
 
   const tour = {
     sectionals: {},
-    pairing: null,
     regionalGames: [],
-    regionalPicks: {}
+    regionalPicks: {},
+    northPairing: [],
+    southPairing: []
   };
 
   function $(id) { return document.getElementById(id); }
@@ -826,9 +854,10 @@
 
   function initTournamentState() {
     tour.sectionals = {};
-    tour.pairing = null;
     tour.regionalGames = [];
     tour.regionalPicks = {};
+    tour.northPairing = [];
+    tour.southPairing = [];
 
     const keys = Object.keys(SECTIONALS);
     for (let i = 0; i < keys.length; i++) {
@@ -861,6 +890,10 @@
     return true;
   }
 
+  function tourHasRegionalDraw() {
+    return tour.regionalGames.length > 0;
+  }
+
   function tourClearAllPicks() {
     const keys = Object.keys(SECTIONALS);
     for (let i = 0; i < keys.length; i++) {
@@ -877,17 +910,67 @@
     return winners[last.id] || null;
   }
 
-  function tourBuildRegionalGames() {
-    if (!tour.pairing) return;
+  function tourPotSectionalRefs(sectionals) {
+    return sectionals.map(function (name) {
+      return { win: "SEC:" + name };
+    });
+  }
 
-    const keys = tour.pairing.slice();
-    const A = keys[0], B = keys[1], C = keys[2], D = keys[3];
-
-    tour.regionalGames = [
-      { id: "R1", title: "Regional 1", a: { win: "SEC:" + A }, b: { win: "SEC:" + B } },
-      { id: "R2", title: "Regional 2", a: { win: "SEC:" + C }, b: { win: "SEC:" + D } },
-      { id: "RF", title: "Final", a: { win: "R1" }, b: { win: "R2" } }
+  function tourBuildPotRegionals(pot) {
+    const refs = tourPotSectionalRefs(pot.sectionals);
+    return [
+      {
+        id: pot.id + "-R1",
+        title: "Regional 1",
+        group: pot.label + " Regionals",
+        a: refs[0],
+        b: refs[1]
+      },
+      {
+        id: pot.id + "-R2",
+        title: "Regional 2",
+        group: pot.label + " Regionals",
+        a: refs[2],
+        b: refs[3]
+      }
     ];
+  }
+
+  function tourBuildSidePairing(pots) {
+    const refs = [
+      { win: pots[0].id + "-R1" },
+      { win: pots[0].id + "-R2" },
+      { win: pots[1].id + "-R1" },
+      { win: pots[1].id + "-R2" }
+    ];
+    return shuffle(refs);
+  }
+
+  function tourBuildRegionalGames() {
+    const northPots = REGIONAL_POTS.north;
+    const southPots = REGIONAL_POTS.south;
+
+    tour.regionalGames = []
+      .concat(tourBuildPotRegionals(northPots[0]))
+      .concat(tourBuildPotRegionals(northPots[1]))
+      .concat(tourBuildPotRegionals(southPots[0]))
+      .concat(tourBuildPotRegionals(southPots[1]));
+
+    const northPair = tourBuildSidePairing(northPots);
+    const southPair = tourBuildSidePairing(southPots);
+
+    tour.northPairing = northPair;
+    tour.southPairing = southPair;
+
+    tour.regionalGames = tour.regionalGames.concat([
+      { id: "N-SF1", title: "North Semifinal 1", group: "North Bracket", a: northPair[0], b: northPair[1] },
+      { id: "N-SF2", title: "North Semifinal 2", group: "North Bracket", a: northPair[2], b: northPair[3] },
+      { id: "N-F", title: "North Final", group: "North Bracket", a: { win: "N-SF1" }, b: { win: "N-SF2" } },
+      { id: "S-SF1", title: "South Semifinal 1", group: "South Bracket", a: southPair[0], b: southPair[1] },
+      { id: "S-SF2", title: "South Semifinal 2", group: "South Bracket", a: southPair[2], b: southPair[3] },
+      { id: "S-F", title: "South Final", group: "South Bracket", a: { win: "S-SF1" }, b: { win: "S-SF2" } },
+      { id: "STATE", title: "State Final", group: "State Final", a: { win: "N-F" }, b: { win: "S-F" } }
+    ]);
 
     validateDownstreamLocal(tour.regionalGames, tour.regionalPicks);
   }
@@ -1021,18 +1104,12 @@
     const regBlock = $("tourRegionalBlock");
     regBlock.innerHTML = "";
 
-    if (!tour.pairing) {
+    if (!tourHasRegionalDraw()) {
       $("tourDrawInfo").textContent = tourHasAllDraws() ? "All sectionals generated. Draw regionals next." : "Generate sectional draws to start.";
       return;
     }
 
-    $("tourDrawInfo").textContent = "Regional draw: Winner(" + tour.pairing[0] + ") vs Winner(" + tour.pairing[1] + "), and Winner(" + tour.pairing[2] + ") vs Winner(" + tour.pairing[3] + ").";
-
-    const regTitle = document.createElement("div");
-    regTitle.style.fontWeight = "800";
-    regTitle.style.marginBottom = "6px";
-    regTitle.textContent = "Regionals + Final";
-    regBlock.appendChild(regTitle);
+    $("tourDrawInfo").textContent = "Regional draw: sectionals are grouped into pots (North + South). Pot winners feed into North/South brackets, then the State Final.";
 
     const ratingAll = buildRatingAll();
 
@@ -1041,10 +1118,20 @@
     const winners = computed.winners;
     const secChampWinners = computed.secChampWinners;
 
+    let currentGroup = "";
     for (let i = 0; i < tour.regionalGames.length; i++) {
       const g = tour.regionalGames[i];
       const a = tourResolveRegionalTeam(g.a, winners, secChampWinners);
       const b = tourResolveRegionalTeam(g.b, winners, secChampWinners);
+
+      if (g.group && g.group !== currentGroup) {
+        currentGroup = g.group;
+        const groupTitle = document.createElement("div");
+        groupTitle.style.fontWeight = "800";
+        groupTitle.style.margin = "12px 0 6px";
+        groupTitle.textContent = currentGroup;
+        regBlock.appendChild(groupTitle);
+      }
 
       const holder = document.createElement("div");
       holder.className = "game";
@@ -1167,33 +1254,37 @@
       if (!champs[k]) return null;
     }
 
-    if (!tour.pairing) return null;
+    if (!tourHasRegionalDraw()) return null;
 
-    const aK = tour.pairing[0], bK = tour.pairing[1], cK = tour.pairing[2], dK = tour.pairing[3];
+    const secChampWinners = {};
+    for (let i = 0; i < keys.length; i++) {
+      const k = keys[i];
+      secChampWinners["SEC:" + k] = champs[k];
+    }
 
-    const r1a = champs[aK];
-    const r1b = champs[bK];
-    const r2a = champs[cK];
-    const r2b = champs[dK];
+    const winners = {};
+    for (let i = 0; i < tour.regionalGames.length; i++) {
+      const g = tour.regionalGames[i];
+      const a = tourResolveRegionalTeam(g.a, winners, secChampWinners);
+      const b = tourResolveRegionalTeam(g.b, winners, secChampWinners);
+      if (!a || !b) continue;
 
-    const r1Pick = tour.regionalPicks["R1"];
-    const pR1 = winProbFrom(ratingAll, "", 0, r1a, r1b);
-    const R1 = (r1Pick === r1a || r1Pick === r1b) ? r1Pick : ((Math.random() < pR1) ? r1a : r1b);
+      const pick = tour.regionalPicks[g.id];
+      if (pick === a || pick === b) {
+        winners[g.id] = pick;
+        continue;
+      }
 
-    const r2Pick = tour.regionalPicks["R2"];
-    const pR2 = winProbFrom(ratingAll, "", 0, r2a, r2b);
-    const R2 = (r2Pick === r2a || r2Pick === r2b) ? r2Pick : ((Math.random() < pR2) ? r2a : r2b);
+      const pA = winProbFrom(ratingAll, "", 0, a, b);
+      winners[g.id] = (Math.random() < pA) ? a : b;
+    }
 
-    const fPick = tour.regionalPicks["RF"];
-    const pF = winProbFrom(ratingAll, "", 0, R1, R2);
-    const champ = (fPick === R1 || fPick === R2) ? fPick : ((Math.random() < pF) ? R1 : R2);
-
-    return { champ: champ, champs: champs };
+    return { champ: winners["STATE"] || null, champs: champs };
   }
 
   function runTournamentOdds() {
     if (!tourHasAllDraws()) { alert("Generate all sectional draws first."); return; }
-    if (!tour.pairing) { alert("Draw regionals first."); return; }
+    if (!tourHasRegionalDraw()) { alert("Draw regionals first."); return; }
 
     const keys = Object.keys(SECTIONALS);
     for (let i = 0; i < keys.length; i++) {
@@ -1378,7 +1469,6 @@
         sec.games = buildGamesFromSlotsLocal(sec.slots);
         clearPicksObj(sec.picks);
       }
-      tour.pairing = null;
       tour.regionalGames = [];
       clearPicksObj(tour.regionalPicks);
       $("tourOdds").innerHTML = '<span class="muted">Run tournament odds to see results.</span>';
@@ -1387,7 +1477,6 @@
 
     $("tourDrawRegionals").onclick = function () {
       if (!tourHasAllDraws()) { alert("Generate all sectional draws first."); return; }
-      tour.pairing = shuffle(Object.keys(SECTIONALS));
       tourBuildRegionalGames();
       clearPicksObj(tour.regionalPicks);
       $("tourOdds").innerHTML = '<span class="muted">Run tournament odds to see results.</span>';
