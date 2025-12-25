@@ -7,41 +7,145 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
 
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 20px; }
-    h1 { margin: 0 0 10px; }
-    .muted { color: #666; font-size: 13px; }
+    body {
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      margin: 0;
+      background: #eef2f7;
+      color: #0f172a;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: -0.02em; }
+    .muted { color: #64748b; font-size: 13px; }
 
-    .tabs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-    .tabbtn { padding: 10px 12px; border: 1px solid #ccc; border-radius: 10px; background: #fff; cursor: pointer; }
-    .tabbtn.active { border-color: #111; font-weight: 800; }
+    .tabs {
+      display: inline-flex;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      padding: 6px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      border: 1px solid #d3dae6;
+    }
+    .tabbtn {
+      padding: 9px 16px;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 600;
+      color: #0f172a;
+      transition: all 0.2s ease;
+    }
+    .tabbtn:hover { background: rgba(255, 255, 255, 0.6); }
+    .tabbtn.active {
+      background: #fff;
+      color: #1d4ed8;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+    }
 
     .panel { display: none; margin-top: 12px; }
     .panel.active { display: block; }
 
     .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; background: #fff; }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      background: #fff;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+    }
 
     .left { flex: 1 1 520px; min-width: 280px; max-width: 100%; }
     .right { flex: 1 1 340px; min-width: 280px; max-width: 100%; }
 
-    .btn { padding: 8px 10px; border: 1px solid #ccc; background: #fff; border-radius: 8px; cursor: pointer; }
-    .btn:hover { background: #f6f6f6; }
-    .btn.win { border-color: #111; font-weight: 800; }
+    .btn {
+      padding: 9px 12px;
+      border: 1px solid #cbd5f5;
+      background: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #0f172a;
+      transition: all 0.2s ease;
+    }
+    .btn:hover { background: #eef2ff; }
+    .btn:focus-visible {
+      outline: 2px solid #93c5fd;
+      outline-offset: 2px;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-color: #1d4ed8;
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(37, 99, 235, 0.25);
+    }
+    .btn.primary:hover { filter: brightness(1.05); }
+    .btn.win {
+      border-color: #0f172a;
+      box-shadow: inset 0 0 0 2px #0f172a;
+      font-weight: 800;
+    }
 
     .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #f2f2f2; font-size: 12px; }
-    input[type="number"], select { padding: 6px; border-radius: 8px; border: 1px solid #ccc; max-width: 100%; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+    input[type="number"], select {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #cbd5f5;
+      background: #fff;
+      max-width: 100%;
+    }
+    input[type="number"]:focus,
+    select:focus {
+      outline: 2px solid #bfdbfe;
+      border-color: #93c5fd;
+    }
     input[type="number"] { width: 110px; }
     select { max-width: 260px; }
-    .note { margin-top: 6px; font-size: 12px; color: #555; }
+    .note { margin-top: 6px; font-size: 12px; color: #64748b; }
 
-    .game { border: 1px solid #eee; border-radius: 10px; padding: 10px; margin: 10px 0; overflow: hidden; }
-    .game-title { font-weight: 800; margin-bottom: 6px; }
+    .game {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px;
+      margin: 10px 0;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+    .game-title { font-weight: 700; margin-bottom: 6px; color: #0f172a; }
     .split { display: grid; grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr); gap: 8px; align-items: center; }
     .center { text-align: center; font-size: 12px; color: #444; }
     .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .small { font-size: 12px; color: #555; }
-    .hr { height: 1px; background: #eee; margin: 10px 0; }
+    .small { font-size: 12px; color: #64748b; }
+    .hr { height: 1px; background: #e2e8f0; margin: 10px 0; }
+    .page { max-width: 1200px; margin: 32px auto; padding: 0 20px 48px; }
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 20px 24px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08);
+    }
+    .header .muted { font-size: 14px; }
 
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 980px) { .grid2 { grid-template-columns: 1fr; } }
@@ -49,7 +153,8 @@
     pre { white-space: pre-wrap; word-break: break-word; }
 
     @media (max-width: 720px) {
-      body { margin: 12px; }
+      .page { margin: 16px auto; }
+      .tabs { width: 100%; justify-content: center; }
       .tabbtn { width: 100%; }
       input[type="number"], select { width: 100%; max-width: 100%; }
       select { max-width: 100%; }
@@ -60,24 +165,27 @@
     }
 
     @media (max-width: 420px) {
-      body { margin: 10px; }
+      .page { margin: 12px auto; }
       .btn { padding: 10px 10px; }
     }
   </style>
 </head>
 <body>
-  <h1>Sectional Predictor</h1>
-  <div class="muted">Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.</div>
-
-  <div class="card" style="margin-top:12px;">
-    <div class="controls">
-      <span class="pill">Home adv</span>
-      <input type="number" id="homeAdv" value="1.8" step="0.5" />
-      <span class="pill">Sims</span>
-      <input type="number" id="simCount" value="20000" min="1000" step="1000" />
+  <div class="page">
+    <div class="header">
+      <h1>Sectional Predictor</h1>
+      <div class="muted">Two tabs: (1) one sectional at a time with your own picks + odds. (2) full 4-sectional tournament bracket with your own picks + odds.</div>
     </div>
-    <div class="note">Home advantage applies only when the host team is in the game. In tournament tab, sectional hosts are fixed.</div>
-  </div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="controls">
+        <span class="pill">Home adv</span>
+        <input type="number" id="homeAdv" value="1.8" step="0.5" />
+        <span class="pill">Sims</span>
+        <input type="number" id="simCount" value="20000" min="1000" step="1000" />
+      </div>
+      <div class="note">Home advantage applies only when the host team is in the game. In tournament tab, sectional hosts are fixed.</div>
+    </div>
 
   <div class="tabs">
     <button class="tabbtn active" id="tabSectional">Single Sectional</button>
@@ -95,7 +203,7 @@
 
         <button class="btn" id="genDraw">Generate Draw</button>
         <button class="btn" id="resetPicks">Reset Picks</button>
-        <button class="btn" id="runSims">Run Odds</button>
+        <button class="btn primary" id="runSims">Run Odds</button>
       </div>
       <div class="note" id="formatNote"></div>
     </div>
@@ -121,7 +229,7 @@
         <button class="btn" id="tourGenAll">Generate All Sectional Draws</button>
         <button class="btn" id="tourDrawRegionals">Draw Regionals</button>
         <button class="btn" id="tourReset">Reset Tournament Picks</button>
-        <button class="btn" id="tourRunOdds">Run Tournament Odds</button>
+        <button class="btn primary" id="tourRunOdds">Run Tournament Odds</button>
       </div>
       <div class="note" id="tourNote">Step 1: Generate sectional draws. Step 2: Draw regionals. Step 3: pick winners anywhere and run odds.</div>
     </div>
@@ -142,12 +250,13 @@
       </div>
     </div>
   </div>
-<footer>
-  <div style="margin-top:40px;padding-top:12px;border-top:1px solid #eee;font-size:12px;color:#555;">
-    Ratings Source: Jeff Sagarin™ Indiana High School Boys Basketball Ratings<br />
-    © 2025 Jeff Sagarin. Data provided by John Harrell.
+    <footer>
+      <div style="margin-top:40px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b;">
+        Ratings Source: Jeff Sagarin™ Indiana High School Boys Basketball Ratings<br />
+        © 2025 Jeff Sagarin. Data provided by John Harrell.
+      </div>
+    </footer>
   </div>
-</footer>
 
 <script>
   const SECTIONALS = {
@@ -191,6 +300,117 @@
         { name: "South Bend Adams", rating: 73.56 },
         { name: "LaPorte", rating: 70.02 },
         { name: "Mishawaka", rating: 62.33 }
+      ]
+    },
+    "Huntington North": {
+      hostDefault: "Huntington North",
+      teams: [
+        { name: "Huntington North", rating: 87.17 },
+        { name: "Homestead", rating: 82.89 },
+        { name: "Fort Wayne Wayne", rating: 80.84 },
+        { name: "Fort Wayne South", rating: 78.95 }
+      ]
+    },
+    "Lafayette Jeff": {
+      hostDefault: "Lafayette Jeff",
+      teams: [
+        { name: "Harrison (West Lafayette)", rating: 81.45 },
+        { name: "Kokomo", rating: 78.84 },
+        { name: "Lafayette Jeff", rating: 73.57 },
+        { name: "McCutcheon", rating: 57.59 }
+      ]
+    },
+    "Noblesville": {
+      hostDefault: "Noblesville",
+      teams: [
+        { name: "Fishers", rating: 98.34 },
+        { name: "Carmel", rating: 96.34 },
+        { name: "Noblesville", rating: 92.35 },
+        { name: "Zionsville", rating: 89.15 },
+        { name: "Westfield", rating: 87.67 },
+        { name: "Hamilton Southeastern", rating: 85.12 }
+      ]
+    },
+    "Greenfield-Central": {
+      hostDefault: "Greenfield-Central",
+      teams: [
+        { name: "Mount Vernon (Fortville)", rating: 95.16 },
+        { name: "Pendleton Heights", rating: 83.68 },
+        { name: "Anderson", rating: 81.88 },
+        { name: "Muncie Central", rating: 74.08 },
+        { name: "Greenfield-Central", rating: 73.22 },
+        { name: "Richmond", rating: 65.61 }
+      ]
+    },
+    "Indianapolis Arsenal Tech": {
+      hostDefault: "Indianapolis Arsenal Tech",
+      teams: [
+        { name: "Lawrence North", rating: 93.85 },
+        { name: "Lawrence Central", rating: 80.41 },
+        { name: "North Central", rating: 80.36 },
+        { name: "Arsenal Tech", rating: 72.93 },
+        { name: "Warren Central", rating: 71.80 }
+      ]
+    },
+    "Plainfield": {
+      hostDefault: "Plainfield",
+      teams: [
+        { name: "Plainfield", rating: 98.84 },
+        { name: "Pike", rating: 92.97 },
+        { name: "Ben Davis", rating: 88.17 },
+        { name: "Brownsburg", rating: 83.02 },
+        { name: "Avon", rating: 80.11 }
+      ]
+    },
+    "Mooresville": {
+      hostDefault: "Mooresville",
+      teams: [
+        { name: "Decatur Central", rating: 86.68 },
+        { name: "Southport", rating: 82.99 },
+        { name: "Center Grove", rating: 80.76 },
+        { name: "Mooresville", rating: 75.10 },
+        { name: "Franklin Central", rating: 73.73 },
+        { name: "Perry Meridian", rating: 71.53 }
+      ]
+    },
+    "Martinsville": {
+      hostDefault: "Martinsville",
+      teams: [
+        { name: "Bloomington North", rating: 87.99 },
+        { name: "Terre Haute North", rating: 84.98 },
+        { name: "Bloomington South", rating: 80.68 },
+        { name: "Martinsville", rating: 72.13 },
+        { name: "Terre Haute South", rating: 63.90 }
+      ]
+    },
+    "Columbus North": {
+      hostDefault: "Columbus North",
+      teams: [
+        { name: "Franklin", rating: 80.48 },
+        { name: "Columbus East", rating: 79.04 },
+        { name: "Columbus North", rating: 78.94 },
+        { name: "Whiteland", rating: 75.77 },
+        { name: "East Central", rating: 64.38 }
+      ]
+    },
+    "Seymour": {
+      hostDefault: "Seymour",
+      teams: [
+        { name: "New Albany", rating: 90.05 },
+        { name: "Jeffersonville", rating: 80.93 },
+        { name: "Floyd Central", rating: 80.30 },
+        { name: "Scottsburg", rating: 72.82 },
+        { name: "Seymour", rating: 71.66 },
+        { name: "Bedford North Lawrence", rating: 67.85 }
+      ]
+    },
+    "Evansville North": {
+      hostDefault: "Evansville North",
+      teams: [
+        { name: "Evansville North", rating: 85.42 },
+        { name: "Evansville Reitz", rating: 72.91 },
+        { name: "Evansville Harrison", rating: 69.59 },
+        { name: "Castle", rating: 64.48 }
       ]
     }
   };
@@ -279,12 +499,32 @@
   function buildGamesFromSlotsLocal(slotsLocal) {
     const n = slotsLocal.length;
 
+    if (n === 4) {
+      const T1 = slotsLocal[0], T2 = slotsLocal[1], T3 = slotsLocal[2], T4 = slotsLocal[3];
+      return [
+        { id: "G1", title: "Semifinal 1", a: T1, b: T2 },
+        { id: "G2", title: "Semifinal 2", a: T3, b: T4 },
+        { id: "F", title: "Final", a: { win: "G1" }, b: { win: "G2" } }
+      ];
+    }
+
     if (n === 5) {
       const A = slotsLocal[0], B = slotsLocal[1], C = slotsLocal[2], D = slotsLocal[3], E = slotsLocal[4];
       return [
         { id: "P", title: "Play-in", a: A, b: B },
         { id: "S1", title: "Semi 1", a: { win: "P" }, b: C },
         { id: "S2", title: "Semi 2", a: D, b: E },
+        { id: "F", title: "Final", a: { win: "S1" }, b: { win: "S2" } }
+      ];
+    }
+
+    if (n === 6) {
+      const A = slotsLocal[0], B = slotsLocal[1], C = slotsLocal[2], D = slotsLocal[3], E = slotsLocal[4], F = slotsLocal[5];
+      return [
+        { id: "Q1", title: "Quarterfinal 1", a: A, b: B },
+        { id: "Q2", title: "Quarterfinal 2", a: C, b: D },
+        { id: "S1", title: "Semifinal 1", a: { win: "Q1" }, b: E },
+        { id: "S2", title: "Semifinal 2", a: { win: "Q2" }, b: F },
         { id: "F", title: "Final", a: { win: "S1" }, b: { win: "S2" } }
       ];
     }
@@ -427,13 +667,19 @@
 
   function sectionalFormatLine(slotsLocal) {
     const n = slotsLocal.length;
+    if (n === 4) {
+      return "Draw: Semifinal 1 = " + slotsLocal[0] + " vs " + slotsLocal[1] + ", Semifinal 2 = " + slotsLocal[2] + " vs " + slotsLocal[3] + ". Winners advance to the final.";
+    }
     if (n === 5) {
       return "Draw: Play-in=" + slotsLocal[0] + " vs " + slotsLocal[1] + ". Semis: Winner(Play-in) vs " + slotsLocal[2] + ", and " + slotsLocal[3] + " vs " + slotsLocal[4] + ".";
+    }
+    if (n === 6) {
+      return "Draw: Q1=" + slotsLocal[0] + " vs " + slotsLocal[1] + ", Q2=" + slotsLocal[2] + " vs " + slotsLocal[3] + ". " + slotsLocal[4] + " and " + slotsLocal[5] + " receive byes to the semifinals.";
     }
     if (n === 7) {
       return "Draw: G1=" + slotsLocal[0] + " vs " + slotsLocal[1] + ", G2=" + slotsLocal[2] + " vs " + slotsLocal[3] + ", G3=" + slotsLocal[4] + " vs " + slotsLocal[5] + ". " + slotsLocal[6] + " has the bye into Game 4.";
     }
-    return "This sectional has " + n + " teams. Only 5-team and 7-team are supported.";
+    return "This sectional has " + n + " teams. Only 4, 5, 6, and 7 teams are supported.";
   }
 
   function loadSectional(key) {
@@ -1013,9 +1259,11 @@
   function assert(cond, msg) { if (!cond) throw new Error(msg); }
 
   function runTests() {
-    assert(Object.keys(SECTIONALS).length === 4, "Expected exactly 4 sectionals");
+    assert(Object.keys(SECTIONALS).length >= 4, "Expected at least 4 sectionals");
     assert(SECTIONALS.Mishawaka.teams.length === 7, "Mishawaka must be a 7-team sectional");
     assert(SECTIONALS.Elkhart.teams.length === 5, "Elkhart must be a 5-team sectional");
+    assert(SECTIONALS["Huntington North"].teams.length === 4, "Huntington North must be a 4-team sectional");
+    assert(SECTIONALS.Noblesville.teams.length === 6, "Noblesville must be a 6-team sectional");
 
     const ratingAll = buildRatingAll();
     assert(Object.keys(ratingAll).length > 0, "ratingAll should not be empty");
