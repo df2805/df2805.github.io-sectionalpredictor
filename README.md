@@ -48,6 +48,11 @@
     .panel { display: none; margin-top: 12px; }
     .panel.active { display: block; }
 
+    .row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-start; }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 14px;
     .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
     .card {
       border: 1px solid #e2e8f0;
@@ -61,6 +66,7 @@
     .right { flex: 1 1 340px; min-width: 280px; max-width: 100%; }
 
     .btn {
+      padding: 8px 10px;
       padding: 9px 12px;
       border: 1px solid #cbd5f5;
       background: #fff;
@@ -69,6 +75,7 @@
       font-weight: 600;
       color: #0f172a;
       transition: all 0.2s ease;
+      white-space: normal;
     }
     .btn:hover { background: #eef2ff; }
     .btn:focus-visible {
@@ -123,12 +130,20 @@
     .game {
       border: 1px solid #e2e8f0;
       border-radius: 14px;
+      padding: 10px;
+      margin: 8px 0;
       padding: 12px;
       margin: 10px 0;
       overflow: hidden;
       background: #f8fafc;
     }
     .game-title { font-weight: 700; margin-bottom: 6px; color: #0f172a; }
+    .split { display: grid; grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr); gap: 8px; align-items: center; }
+    .center { text-align: center; font-size: 12px; color: #444; }
+    .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .small { font-size: 12px; color: #64748b; }
+    .hr { height: 1px; background: #e2e8f0; margin: 8px 0; }
+    .page { max-width: 1200px; margin: 20px auto; padding: 0 16px 32px; }
     .split { display: grid; grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr); gap: 8px; align-items: center; }
     .center { text-align: center; font-size: 12px; color: #444; }
     .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
@@ -139,6 +154,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      padding: 16px 20px;
       padding: 20px 24px;
       border-radius: 18px;
       background: #fff;
@@ -157,6 +173,7 @@
     pre { white-space: pre-wrap; word-break: break-word; }
 
     @media (max-width: 720px) {
+      .page { margin: 12px auto; }
       .page { margin: 16px auto; }
       .tabs { width: 100%; justify-content: center; }
       .tabbtn { width: 100%; }
