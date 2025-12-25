@@ -53,6 +53,11 @@
       border: 1px solid #e2e8f0;
       border-radius: 16px;
       padding: 14px;
+    .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
       background: #fff;
       box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
     }
@@ -62,6 +67,7 @@
 
     .btn {
       padding: 8px 10px;
+      padding: 9px 12px;
       border: 1px solid #cbd5f5;
       background: #fff;
       border-radius: 10px;
@@ -126,6 +132,8 @@
       border-radius: 14px;
       padding: 10px;
       margin: 8px 0;
+      padding: 12px;
+      margin: 10px 0;
       overflow: hidden;
       background: #f8fafc;
     }
@@ -136,15 +144,26 @@
     .small { font-size: 12px; color: #64748b; }
     .hr { height: 1px; background: #e2e8f0; margin: 8px 0; }
     .page { max-width: 1200px; margin: 20px auto; padding: 0 16px 32px; }
+    .split { display: grid; grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr); gap: 8px; align-items: center; }
+    .center { text-align: center; font-size: 12px; color: #444; }
+    .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .small { font-size: 12px; color: #64748b; }
+    .hr { height: 1px; background: #e2e8f0; margin: 10px 0; }
+    .page { max-width: 1200px; margin: 32px auto; padding: 0 20px 48px; }
     .header {
       display: flex;
       flex-direction: column;
       gap: 4px;
       padding: 16px 20px;
+      padding: 20px 24px;
       border-radius: 18px;
       background: #fff;
       border: 1px solid #e2e8f0;
       box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08);
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 165, 233, 0.08));
+      border: 1px solid rgba(37, 99, 235, 0.2);
     }
     .header .muted { font-size: 14px; }
 
@@ -155,6 +174,7 @@
 
     @media (max-width: 720px) {
       .page { margin: 12px auto; }
+      .page { margin: 16px auto; }
       .tabs { width: 100%; justify-content: center; }
       .tabbtn { width: 100%; }
       input[type="number"], select { width: 100%; max-width: 100%; }
