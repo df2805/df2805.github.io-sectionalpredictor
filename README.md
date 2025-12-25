@@ -276,6 +276,117 @@
         { name: "LaPorte", rating: 70.02 },
         { name: "Mishawaka", rating: 62.33 }
       ]
+    },
+    "Huntington North": {
+      hostDefault: "Huntington North",
+      teams: [
+        { name: "Huntington North", rating: 87.17 },
+        { name: "Homestead", rating: 82.89 },
+        { name: "Fort Wayne Wayne", rating: 80.84 },
+        { name: "Fort Wayne South", rating: 78.95 }
+      ]
+    },
+    "Lafayette Jeff": {
+      hostDefault: "Lafayette Jeff",
+      teams: [
+        { name: "Harrison (West Lafayette)", rating: 81.45 },
+        { name: "Kokomo", rating: 78.84 },
+        { name: "Lafayette Jeff", rating: 73.57 },
+        { name: "McCutcheon", rating: 57.59 }
+      ]
+    },
+    "Noblesville": {
+      hostDefault: "Noblesville",
+      teams: [
+        { name: "Fishers", rating: 98.34 },
+        { name: "Carmel", rating: 96.34 },
+        { name: "Noblesville", rating: 92.35 },
+        { name: "Zionsville", rating: 89.15 },
+        { name: "Westfield", rating: 87.67 },
+        { name: "Hamilton Southeastern", rating: 85.12 }
+      ]
+    },
+    "Greenfield-Central": {
+      hostDefault: "Greenfield-Central",
+      teams: [
+        { name: "Mount Vernon (Fortville)", rating: 95.16 },
+        { name: "Pendleton Heights", rating: 83.68 },
+        { name: "Anderson", rating: 81.88 },
+        { name: "Muncie Central", rating: 74.08 },
+        { name: "Greenfield-Central", rating: 73.22 },
+        { name: "Richmond", rating: 65.61 }
+      ]
+    },
+    "Indianapolis Arsenal Tech": {
+      hostDefault: "Indianapolis Arsenal Tech",
+      teams: [
+        { name: "Lawrence North", rating: 93.85 },
+        { name: "Lawrence Central", rating: 80.41 },
+        { name: "North Central", rating: 80.36 },
+        { name: "Arsenal Tech", rating: 72.93 },
+        { name: "Warren Central", rating: 71.80 }
+      ]
+    },
+    "Plainfield": {
+      hostDefault: "Plainfield",
+      teams: [
+        { name: "Plainfield", rating: 98.84 },
+        { name: "Pike", rating: 92.97 },
+        { name: "Ben Davis", rating: 88.17 },
+        { name: "Brownsburg", rating: 83.02 },
+        { name: "Avon", rating: 80.11 }
+      ]
+    },
+    "Mooresville": {
+      hostDefault: "Mooresville",
+      teams: [
+        { name: "Decatur Central", rating: 86.68 },
+        { name: "Southport", rating: 82.99 },
+        { name: "Center Grove", rating: 80.76 },
+        { name: "Mooresville", rating: 75.10 },
+        { name: "Franklin Central", rating: 73.73 },
+        { name: "Perry Meridian", rating: 71.53 }
+      ]
+    },
+    "Martinsville": {
+      hostDefault: "Martinsville",
+      teams: [
+        { name: "Bloomington North", rating: 87.99 },
+        { name: "Terre Haute North", rating: 84.98 },
+        { name: "Bloomington South", rating: 80.68 },
+        { name: "Martinsville", rating: 72.13 },
+        { name: "Terre Haute South", rating: 63.90 }
+      ]
+    },
+    "Columbus North": {
+      hostDefault: "Columbus North",
+      teams: [
+        { name: "Franklin", rating: 80.48 },
+        { name: "Columbus East", rating: 79.04 },
+        { name: "Columbus North", rating: 78.94 },
+        { name: "Whiteland", rating: 75.77 },
+        { name: "East Central", rating: 64.38 }
+      ]
+    },
+    "Seymour": {
+      hostDefault: "Seymour",
+      teams: [
+        { name: "New Albany", rating: 90.05 },
+        { name: "Jeffersonville", rating: 80.93 },
+        { name: "Floyd Central", rating: 80.30 },
+        { name: "Scottsburg", rating: 72.82 },
+        { name: "Seymour", rating: 71.66 },
+        { name: "Bedford North Lawrence", rating: 67.85 }
+      ]
+    },
+    "Evansville North": {
+      hostDefault: "Evansville North",
+      teams: [
+        { name: "Evansville North", rating: 85.42 },
+        { name: "Evansville Reitz", rating: 72.91 },
+        { name: "Evansville Harrison", rating: 69.59 },
+        { name: "Castle", rating: 64.48 }
+      ]
     }
   };
 
@@ -363,12 +474,32 @@
   function buildGamesFromSlotsLocal(slotsLocal) {
     const n = slotsLocal.length;
 
+    if (n === 4) {
+      const T1 = slotsLocal[0], T2 = slotsLocal[1], T3 = slotsLocal[2], T4 = slotsLocal[3];
+      return [
+        { id: "G1", title: "Semifinal 1", a: T1, b: T2 },
+        { id: "G2", title: "Semifinal 2", a: T3, b: T4 },
+        { id: "F", title: "Final", a: { win: "G1" }, b: { win: "G2" } }
+      ];
+    }
+
     if (n === 5) {
       const A = slotsLocal[0], B = slotsLocal[1], C = slotsLocal[2], D = slotsLocal[3], E = slotsLocal[4];
       return [
         { id: "P", title: "Play-in", a: A, b: B },
         { id: "S1", title: "Semi 1", a: { win: "P" }, b: C },
         { id: "S2", title: "Semi 2", a: D, b: E },
+        { id: "F", title: "Final", a: { win: "S1" }, b: { win: "S2" } }
+      ];
+    }
+
+    if (n === 6) {
+      const A = slotsLocal[0], B = slotsLocal[1], C = slotsLocal[2], D = slotsLocal[3], E = slotsLocal[4], F = slotsLocal[5];
+      return [
+        { id: "Q1", title: "Quarterfinal 1", a: A, b: B },
+        { id: "Q2", title: "Quarterfinal 2", a: C, b: D },
+        { id: "S1", title: "Semifinal 1", a: { win: "Q1" }, b: E },
+        { id: "S2", title: "Semifinal 2", a: { win: "Q2" }, b: F },
         { id: "F", title: "Final", a: { win: "S1" }, b: { win: "S2" } }
       ];
     }
@@ -511,13 +642,19 @@
 
   function sectionalFormatLine(slotsLocal) {
     const n = slotsLocal.length;
+    if (n === 4) {
+      return "Draw: Semifinal 1 = " + slotsLocal[0] + " vs " + slotsLocal[1] + ", Semifinal 2 = " + slotsLocal[2] + " vs " + slotsLocal[3] + ". Winners advance to the final.";
+    }
     if (n === 5) {
       return "Draw: Play-in=" + slotsLocal[0] + " vs " + slotsLocal[1] + ". Semis: Winner(Play-in) vs " + slotsLocal[2] + ", and " + slotsLocal[3] + " vs " + slotsLocal[4] + ".";
+    }
+    if (n === 6) {
+      return "Draw: Q1=" + slotsLocal[0] + " vs " + slotsLocal[1] + ", Q2=" + slotsLocal[2] + " vs " + slotsLocal[3] + ". " + slotsLocal[4] + " and " + slotsLocal[5] + " receive byes to the semifinals.";
     }
     if (n === 7) {
       return "Draw: G1=" + slotsLocal[0] + " vs " + slotsLocal[1] + ", G2=" + slotsLocal[2] + " vs " + slotsLocal[3] + ", G3=" + slotsLocal[4] + " vs " + slotsLocal[5] + ". " + slotsLocal[6] + " has the bye into Game 4.";
     }
-    return "This sectional has " + n + " teams. Only 5-team and 7-team are supported.";
+    return "This sectional has " + n + " teams. Only 4, 5, 6, and 7 teams are supported.";
   }
 
   function loadSectional(key) {
@@ -1097,9 +1234,11 @@
   function assert(cond, msg) { if (!cond) throw new Error(msg); }
 
   function runTests() {
-    assert(Object.keys(SECTIONALS).length === 4, "Expected exactly 4 sectionals");
+    assert(Object.keys(SECTIONALS).length >= 4, "Expected at least 4 sectionals");
     assert(SECTIONALS.Mishawaka.teams.length === 7, "Mishawaka must be a 7-team sectional");
     assert(SECTIONALS.Elkhart.teams.length === 5, "Elkhart must be a 5-team sectional");
+    assert(SECTIONALS["Huntington North"].teams.length === 4, "Huntington North must be a 4-team sectional");
+    assert(SECTIONALS.Noblesville.teams.length === 6, "Noblesville must be a 6-team sectional");
 
     const ratingAll = buildRatingAll();
     assert(Object.keys(ratingAll).length > 0, "ratingAll should not be empty");
