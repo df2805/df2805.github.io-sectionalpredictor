@@ -1399,7 +1399,7 @@
     renderTournament();
   }
 
-  runTests();
+  // runTests();
   initUI();
 </script>
 </body>
