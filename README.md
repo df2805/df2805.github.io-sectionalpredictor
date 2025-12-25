@@ -416,6 +416,15 @@
         { name: "Evansville Harrison", rating: 69.59 },
         { name: "Castle", rating: 64.48 }
       ]
+    },
+    "Fort Wayne Northrop": {
+      hostDefault: "Fort Wayne Northrop",
+      teams: [
+        { name: "Fort Wayne Snider", rating: 79.81 },
+        { name: "Carroll (Fort Wayne)", rating: 79.00 },
+        { name: "Fort Wayne North", rating: 73.41 },
+        { name: "Fort Wayne Northrop", rating: 60.11 }
+      ]
     }
   };
 
