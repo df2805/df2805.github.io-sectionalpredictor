@@ -10,29 +10,39 @@
     body {
       font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial;
       margin: 0;
-      background: radial-gradient(circle at top, #f5f8ff 0%, #f4f6fb 45%, #eef1f7 100%);
+      background: #eef2f7;
       color: #0f172a;
+      line-height: 1.5;
+      min-height: 100vh;
     }
-    h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.02em; }
+    h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: -0.02em; }
     .muted { color: #64748b; font-size: 13px; }
 
-    .tabs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-    .tabbtn {
-      padding: 10px 14px;
-      border: 1px solid transparent;
+    .tabs {
+      display: inline-flex;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      padding: 6px;
       border-radius: 999px;
       background: #e2e8f0;
+      border: 1px solid #d3dae6;
+    }
+    .tabbtn {
+      padding: 9px 16px;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
       cursor: pointer;
       font-weight: 600;
       color: #0f172a;
       transition: all 0.2s ease;
     }
-    .tabbtn:hover { background: #cbd5f5; }
+    .tabbtn:hover { background: rgba(255, 255, 255, 0.6); }
     .tabbtn.active {
-      background: #1d4ed8;
-      color: #fff;
-      border-color: #1d4ed8;
-      box-shadow: 0 10px 20px rgba(29, 78, 216, 0.18);
+      background: #fff;
+      color: #1d4ed8;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
     }
 
     .panel { display: none; margin-top: 12px; }
@@ -44,7 +54,7 @@
       border-radius: 16px;
       padding: 16px;
       background: #fff;
-      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
     }
 
     .left { flex: 1 1 520px; min-width: 280px; max-width: 100%; }
@@ -61,6 +71,14 @@
       transition: all 0.2s ease;
     }
     .btn:hover { background: #eef2ff; }
+    .btn:focus-visible {
+      outline: 2px solid #93c5fd;
+      outline-offset: 2px;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
     .btn.primary {
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
       border-color: #1d4ed8;
@@ -93,6 +111,11 @@
       background: #fff;
       max-width: 100%;
     }
+    input[type="number"]:focus,
+    select:focus {
+      outline: 2px solid #bfdbfe;
+      border-color: #93c5fd;
+    }
     input[type="number"] { width: 110px; }
     select { max-width: 260px; }
     .note { margin-top: 6px; font-size: 12px; color: #64748b; }
@@ -116,6 +139,11 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      padding: 20px 24px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08);
       padding: 18px 20px;
       border-radius: 18px;
       background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 165, 233, 0.08));
@@ -130,6 +158,7 @@
 
     @media (max-width: 720px) {
       .page { margin: 16px auto; }
+      .tabs { width: 100%; justify-content: center; }
       .tabbtn { width: 100%; }
       input[type="number"], select { width: 100%; max-width: 100%; }
       select { max-width: 100%; }
