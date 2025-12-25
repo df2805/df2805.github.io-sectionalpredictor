@@ -144,6 +144,10 @@
       background: #fff;
       border: 1px solid #e2e8f0;
       box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08);
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 165, 233, 0.08));
+      border: 1px solid rgba(37, 99, 235, 0.2);
     }
     .header .muted { font-size: 14px; }
 
