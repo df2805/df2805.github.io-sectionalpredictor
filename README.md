@@ -53,6 +53,11 @@
       border: 1px solid #e2e8f0;
       border-radius: 16px;
       padding: 14px;
+    .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
       background: #fff;
       box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
     }
@@ -62,6 +67,7 @@
 
     .btn {
       padding: 8px 10px;
+      padding: 9px 12px;
       border: 1px solid #cbd5f5;
       background: #fff;
       border-radius: 10px;
@@ -126,6 +132,8 @@
       border-radius: 14px;
       padding: 10px;
       margin: 8px 0;
+      padding: 12px;
+      margin: 10px 0;
       overflow: hidden;
       background: #f8fafc;
     }
@@ -136,11 +144,23 @@
     .small { font-size: 12px; color: #64748b; }
     .hr { height: 1px; background: #e2e8f0; margin: 8px 0; }
     .page { max-width: 1200px; margin: 20px auto; padding: 0 16px 32px; }
+    .center { text-align: center; font-size: 12px; color: #444; }
+    .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .small { font-size: 12px; color: #64748b; }
+    .hr { height: 1px; background: #e2e8f0; margin: 8px 0; }
+    .page { max-width: 1200px; margin: 20px auto; padding: 0 16px 32px; }
+    .split { display: grid; grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr); gap: 8px; align-items: center; }
+    .center { text-align: center; font-size: 12px; color: #444; }
+    .bracket { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .small { font-size: 12px; color: #64748b; }
+    .hr { height: 1px; background: #e2e8f0; margin: 10px 0; }
+    .page { max-width: 1200px; margin: 32px auto; padding: 0 20px 48px; }
     .header {
       display: flex;
       flex-direction: column;
       gap: 4px;
       padding: 16px 20px;
+      padding: 20px 24px;
       border-radius: 18px;
       background: #fff;
       border: 1px solid #e2e8f0;
@@ -185,6 +205,12 @@
       align-items: center;
       gap: 8px;
     }
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 165, 233, 0.08));
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+    .header .muted { font-size: 14px; }
 
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 980px) { .grid2 { grid-template-columns: 1fr; } }
@@ -193,6 +219,7 @@
 
     @media (max-width: 720px) {
       .page { margin: 12px auto; }
+      .page { margin: 16px auto; }
       .tabs { width: 100%; justify-content: center; }
       .tabbtn { width: 100%; }
       input[type="number"], select { width: 100%; max-width: 100%; }
@@ -220,6 +247,7 @@
       <div class="controls">
         <span class="pill">Home adv</span>
         <input type="number" id="homeAdv" value="1.8" step="0.5" />
+        <input type="number" id="homeAdv" value="1.9" step="0.5" />
         <span class="pill">Sims</span>
         <input type="number" id="simCount" value="20000" min="1000" step="1000" />
       </div>
@@ -312,6 +340,7 @@
         { name: "Elkhart", rating: 79.41 },
         { name: "Warsaw", rating: 76.54 },
         { name: "Concord", rating: 55.53 }
+        { name: "Concord", rating: 62.77 }
       ]
     },
     "Crown Point": {
@@ -464,6 +493,126 @@
         { name: "Carroll (Fort Wayne)", rating: 79.63 },
         { name: "Fort Wayne North", rating: 71.34 },
         { name: "Fort Wayne Northrop", rating: 58.10 }
+      ]
+    },
+    "Huntington North": {
+      hostDefault: "Huntington North",
+      teams: [
+        { name: "Huntington North", rating: 87.17 },
+        { name: "Homestead", rating: 82.89 },
+        { name: "Fort Wayne Wayne", rating: 80.84 },
+        { name: "Fort Wayne South", rating: 78.95 }
+      ]
+    },
+    "Lafayette Jeff": {
+      hostDefault: "Lafayette Jeff",
+      teams: [
+        { name: "Harrison (West Lafayette)", rating: 81.45 },
+        { name: "Kokomo", rating: 78.84 },
+        { name: "Lafayette Jeff", rating: 73.57 },
+        { name: "McCutcheon", rating: 57.59 }
+      ]
+    },
+    "Noblesville": {
+      hostDefault: "Noblesville",
+      teams: [
+        { name: "Fishers", rating: 98.34 },
+        { name: "Carmel", rating: 96.34 },
+        { name: "Noblesville", rating: 92.35 },
+        { name: "Zionsville", rating: 89.15 },
+        { name: "Westfield", rating: 87.67 },
+        { name: "Hamilton Southeastern", rating: 85.12 }
+      ]
+    },
+    "Greenfield-Central": {
+      hostDefault: "Greenfield-Central",
+      teams: [
+        { name: "Mount Vernon (Fortville)", rating: 95.16 },
+        { name: "Pendleton Heights", rating: 83.68 },
+        { name: "Anderson", rating: 81.88 },
+        { name: "Muncie Central", rating: 74.08 },
+        { name: "Greenfield-Central", rating: 73.22 },
+        { name: "Richmond", rating: 65.61 }
+      ]
+    },
+    "Indianapolis Arsenal Tech": {
+      hostDefault: "Indianapolis Arsenal Tech",
+      teams: [
+        { name: "Lawrence North", rating: 93.85 },
+        { name: "Lawrence Central", rating: 80.41 },
+        { name: "North Central", rating: 80.36 },
+        { name: "Arsenal Tech", rating: 72.93 },
+        { name: "Warren Central", rating: 71.80 }
+      ]
+    },
+    "Plainfield": {
+      hostDefault: "Plainfield",
+      teams: [
+        { name: "Plainfield", rating: 98.84 },
+        { name: "Pike", rating: 92.97 },
+        { name: "Ben Davis", rating: 88.17 },
+        { name: "Brownsburg", rating: 83.02 },
+        { name: "Avon", rating: 80.11 }
+      ]
+    },
+    "Mooresville": {
+      hostDefault: "Mooresville",
+      teams: [
+        { name: "Decatur Central", rating: 86.68 },
+        { name: "Southport", rating: 82.99 },
+        { name: "Center Grove", rating: 80.76 },
+        { name: "Mooresville", rating: 75.10 },
+        { name: "Franklin Central", rating: 73.73 },
+        { name: "Perry Meridian", rating: 71.53 }
+      ]
+    },
+    "Martinsville": {
+      hostDefault: "Martinsville",
+      teams: [
+        { name: "Bloomington North", rating: 87.99 },
+        { name: "Terre Haute North", rating: 84.98 },
+        { name: "Bloomington South", rating: 80.68 },
+        { name: "Martinsville", rating: 72.13 },
+        { name: "Terre Haute South", rating: 63.90 }
+      ]
+    },
+    "Columbus North": {
+      hostDefault: "Columbus North",
+      teams: [
+        { name: "Franklin", rating: 80.48 },
+        { name: "Columbus East", rating: 79.04 },
+        { name: "Columbus North", rating: 78.94 },
+        { name: "Whiteland", rating: 75.77 },
+        { name: "East Central", rating: 64.38 }
+      ]
+    },
+    "Seymour": {
+      hostDefault: "Seymour",
+      teams: [
+        { name: "New Albany", rating: 90.05 },
+        { name: "Jeffersonville", rating: 80.93 },
+        { name: "Floyd Central", rating: 80.30 },
+        { name: "Scottsburg", rating: 72.82 },
+        { name: "Seymour", rating: 71.66 },
+        { name: "Bedford North Lawrence", rating: 67.85 }
+      ]
+    },
+    "Evansville North": {
+      hostDefault: "Evansville North",
+      teams: [
+        { name: "Evansville North", rating: 85.42 },
+        { name: "Evansville Reitz", rating: 72.91 },
+        { name: "Evansville Harrison", rating: 69.59 },
+        { name: "Castle", rating: 64.48 }
+      ]
+    },
+    "Fort Wayne Northrop": {
+      hostDefault: "Fort Wayne Northrop",
+      teams: [
+        { name: "Fort Wayne Snider", rating: 79.81 },
+        { name: "Carroll (Fort Wayne)", rating: 79.00 },
+        { name: "Fort Wayne North", rating: 73.41 },
+        { name: "Fort Wayne Northrop", rating: 60.11 }
       ]
     }
   };
