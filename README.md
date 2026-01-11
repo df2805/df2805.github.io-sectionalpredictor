@@ -361,11 +361,11 @@
     "Chesterton": {
       hostDefault: "Chesterton",
       teams: [
-        { name: "Chesterton", rating: 88.62 },
-        { name: "Portage", rating: 78.43 },
-        { name: "Valparaiso", rating: 72.94 },
-        { name: "Merrillville", rating: 57.68 },
-        { name: "Hobart", rating: 65.81 }
+        { name: "Chesterton", rating: 91.20 },
+        { name: "Portage", rating: 79.03 },
+        { name: "Valparaiso", rating: 74.33 },
+        { name: "Merrillville", rating: 64.96 },
+        { name: "Hobart", rating: 61.11 }
       ]
     },
     "Mishawaka": {
