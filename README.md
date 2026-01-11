@@ -340,22 +340,22 @@
     "Elkhart": {
       hostDefault: "Elkhart",
       teams: [
-        { name: "Northridge", rating: 87.67 },
-        { name: "Goshen", rating: 77.02 },
-        { name: "Elkhart", rating: 79.41 },
-        { name: "Warsaw", rating: 76.54 },
-        { name: "Concord", rating: 55.53 }
-        { name: "Concord", rating: 62.77 }
+        { name: "Northridge", rating: 88.60 },
+        { name: "Goshen", rating: 79.69 },
+        { name: "Elkhart", rating: 74.07 },
+        { name: "Warsaw", rating: 76.05 },
+        { name: "Concord", rating: 60.03 }
+        { name: "Concord", rating: 60.03 }
       ]
     },
     "Crown Point": {
       hostDefault: "Crown Point",
       teams: [
-        { name: "Crown Point", rating: 93.50 },
-        { name: "Lake Central", rating: 81.27 },
-        { name: "Munster", rating: 62.28 },
-        { name: "Hammond Morton", rating: 61.30 },
-        { name: "Hammond Central", rating: 56.71 }
+        { name: "Crown Point", rating: 93.40 },
+        { name: "Lake Central", rating: 81.00},
+        { name: "Munster", rating: 60.55},
+        { name: "Hammond Morton", rating: 54.99 },
+        { name: "Hammond Central", rating: 57.72 }
       ]
     },
     "Chesterton": {
