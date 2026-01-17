@@ -251,7 +251,7 @@
     <div class="card" style="margin-top:16px;">
       <div class="controls">
         <span class="pill">Home adv</span>
-        <input type="number" id="homeAdv" value="1.8" step="0.5" />
+        <input type="number" id="homeAdv" value="1.5" step="0.5" />
         <input type="number" id="homeAdv" value="1.9" step="0.5" />
         <span class="pill">Sims</span>
         <input type="number" id="simCount" value="20000" min="1000" step="1000" />
