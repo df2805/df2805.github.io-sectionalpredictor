@@ -336,291 +336,186 @@
   </div>
 
 <script>
-  const SECTIONALS = {
-    "Elkhart": {
-      hostDefault: "Elkhart",
-      teams: [
-        { name: "Northridge", rating: 88.60 },
-        { name: "Goshen", rating: 79.69 },
-        { name: "Elkhart", rating: 74.07 },
-        { name: "Warsaw", rating: 76.05 },
-        { name: "Concord", rating: 60.03 }
-        { name: "Concord", rating: 60.03 }
-      ]
-    },
-    "Crown Point": {
-      hostDefault: "Crown Point",
-      teams: [
-        { name: "Crown Point", rating: 93.40 },
-        { name: "Lake Central", rating: 81.00},
-        { name: "Munster", rating: 60.55},
-        { name: "Hammond Morton", rating: 54.99 },
-        { name: "Hammond Central", rating: 57.72 }
-      ]
-    },
-    "Chesterton": {
-      hostDefault: "Chesterton",
-      teams: [
-        { name: "Chesterton", rating: 91.20 },
-        { name: "Portage", rating: 79.03 },
-        { name: "Valparaiso", rating: 74.33 },
-        { name: "Merrillville", rating: 64.96 },
-        { name: "Hobart", rating: 61.11 }
-      ]
-    },
-    "Mishawaka": {
-      hostDefault: "Mishawaka",
-      teams: [
-        { name: "Penn", rating: 89.19 },
-        { name: "South Bend Riley", rating: 88.73 },
-        { name: "South Bend St. Joseph", rating: 87.32 },
-        { name: "Michigan City", rating: 76.62 },
-        { name: "South Bend Adams", rating: 86.67 },
-        { name: "LaPorte", rating: 76.55 },
-        { name: "Mishawaka", rating: 53.40 }
-      ]
-    },
-    "Huntington North": {
-      hostDefault: "Huntington North",
-      teams: [
-        { name: "Huntington North", rating: 82.50 },
-        { name: "Homestead", rating: 83.64 },
-        { name: "Fort Wayne Wayne", rating: 81.09 },
-        { name: "Fort Wayne South", rating: 85.44 }
-      ]
-    },
-    "Lafayette Jeff": {
-      hostDefault: "Lafayette Jeff",
-      teams: [
-        { name: "Harrison (West Lafayette)", rating: 78.55 },
-        { name: "Kokomo", rating: 78.22 },
-        { name: "Lafayette Jeff", rating: 68.93 },
-        { name: "McCutcheon", rating: 52.85 }
-      ]
-    },
-    "Noblesville": {
-      hostDefault: "Noblesville",
-      teams: [
-        { name: "Fishers", rating: 95.42 },
-        { name: "Carmel", rating: 92.43 },
-        { name: "Noblesville", rating: 90.14 },
-        { name: "Zionsville", rating: 85.74 },
-        { name: "Westfield", rating: 87.17 },
-        { name: "Hamilton Southeastern", rating: 85.94 }
-      ]
-    },
-    "Greenfield-Central": {
-      hostDefault: "Greenfield-Central",
-      teams: [
-        { name: "Mount Vernon (Fortville)", rating: 95.96 },
-        { name: "Pendleton Heights", rating: 87.14 },
-        { name: "Anderson", rating: 84.15 },
-        { name: "Muncie Central", rating: 75.04 },
-        { name: "Greenfield-Central", rating: 65.82 },
-        { name: "Richmond", rating: 63.50 }
-      ]
-    },
-    "Indianapolis Arsenal Tech": {
-      hostDefault: "Indianapolis Arsenal Tech",
-      teams: [
-        { name: "Lawrence North", rating: 88.47 },
-        { name: "Lawrence Central", rating: 83.75 },
-        { name: "North Central", rating: 79.57 },
-        { name: "Arsenal Tech", rating: 72.22 },
-        { name: "Warren Central", rating: 71.39 }
-      ]
-    },
-    "Plainfield": {
-      hostDefault: "Plainfield",
-      teams: [
-        { name: "Plainfield", rating: 95.04 },
-        { name: "Pike", rating: 93.53 },
-        { name: "Ben Davis", rating: 93.20 },
-        { name: "Brownsburg", rating: 82.78 },
-        { name: "Avon", rating: 80.26 }
-      ]
-    },
-    "Mooresville": {
-      hostDefault: "Mooresville",
-      teams: [
-        { name: "Decatur Central", rating: 83.74 },
-        { name: "Southport", rating: 81.16 },
-        { name: "Center Grove", rating: 77.84 },
-        { name: "Mooresville", rating: 73.89 },
-        { name: "Franklin Central", rating: 76.25 },
-        { name: "Perry Meridian", rating: 67.21 }
-      ]
-    },
-    "Martinsville": {
-      hostDefault: "Martinsville",
-      teams: [
-        { name: "Bloomington North", rating: 85.45 },
-        { name: "Terre Haute North", rating: 89.81 },
-        { name: "Bloomington South", rating: 82.91 },
-        { name: "Martinsville", rating: 66.49 },
-        { name: "Terre Haute South", rating: 62.93 }
-      ]
-    },
-    "Columbus North": {
-      hostDefault: "Columbus North",
-      teams: [
-        { name: "Franklin", rating: 76.67 },
-        { name: "Columbus East", rating: 77.33 },
-        { name: "Columbus North", rating: 77.65 },
-        { name: "Whiteland", rating: 73.02 },
-        { name: "East Central", rating: 64.44 }
-      ]
-    },
-    "Seymour": {
-      hostDefault: "Seymour",
-      teams: [
-        { name: "New Albany", rating: 91.32 },
-        { name: "Jeffersonville", rating: 78.41 },
-        { name: "Floyd Central", rating: 79.20 },
-        { name: "Scottsburg", rating: 73.01 },
-        { name: "Seymour", rating: 65.80 },
-        { name: "Bedford North Lawrence", rating: 67.53 }
-      ]
-    },
-    "Evansville North": {
-      hostDefault: "Evansville North",
-      teams: [
-        { name: "Evansville North", rating: 85.69 },
-        { name: "Evansville Reitz", rating: 74.66 },
-        { name: "Evansville Harrison", rating: 66.93 },
-        { name: "Castle", rating: 58.13 }
-      ]
-    },
-    "Fort Wayne Northrop": {
-      hostDefault: "Fort Wayne Northrop",
-      teams: [
-        { name: "Fort Wayne Snider", rating: 84.13 },
-        { name: "Carroll (Fort Wayne)", rating: 79.63 },
-        { name: "Fort Wayne North", rating: 71.34 },
-        { name: "Fort Wayne Northrop", rating: 58.10 }
-      ]
-    },
-    "Huntington North": {
-      hostDefault: "Huntington North",
-      teams: [
-        { name: "Huntington North", rating: 87.17 },
-        { name: "Homestead", rating: 82.89 },
-        { name: "Fort Wayne Wayne", rating: 80.84 },
-        { name: "Fort Wayne South", rating: 78.95 }
-      ]
-    },
-    "Lafayette Jeff": {
-      hostDefault: "Lafayette Jeff",
-      teams: [
-        { name: "Harrison (West Lafayette)", rating: 81.45 },
-        { name: "Kokomo", rating: 78.84 },
-        { name: "Lafayette Jeff", rating: 73.57 },
-        { name: "McCutcheon", rating: 57.59 }
-      ]
-    },
-    "Noblesville": {
-      hostDefault: "Noblesville",
-      teams: [
-        { name: "Fishers", rating: 98.34 },
-        { name: "Carmel", rating: 96.34 },
-        { name: "Noblesville", rating: 92.35 },
-        { name: "Zionsville", rating: 89.15 },
-        { name: "Westfield", rating: 87.67 },
-        { name: "Hamilton Southeastern", rating: 85.12 }
-      ]
-    },
-    "Greenfield-Central": {
-      hostDefault: "Greenfield-Central",
-      teams: [
-        { name: "Mount Vernon (Fortville)", rating: 95.16 },
-        { name: "Pendleton Heights", rating: 83.68 },
-        { name: "Anderson", rating: 81.88 },
-        { name: "Muncie Central", rating: 74.08 },
-        { name: "Greenfield-Central", rating: 73.22 },
-        { name: "Richmond", rating: 65.61 }
-      ]
-    },
-    "Indianapolis Arsenal Tech": {
-      hostDefault: "Indianapolis Arsenal Tech",
-      teams: [
-        { name: "Lawrence North", rating: 93.85 },
-        { name: "Lawrence Central", rating: 80.41 },
-        { name: "North Central", rating: 80.36 },
-        { name: "Arsenal Tech", rating: 72.93 },
-        { name: "Warren Central", rating: 71.80 }
-      ]
-    },
-    "Plainfield": {
-      hostDefault: "Plainfield",
-      teams: [
-        { name: "Plainfield", rating: 98.84 },
-        { name: "Pike", rating: 92.97 },
-        { name: "Ben Davis", rating: 88.17 },
-        { name: "Brownsburg", rating: 83.02 },
-        { name: "Avon", rating: 80.11 }
-      ]
-    },
-    "Mooresville": {
-      hostDefault: "Mooresville",
-      teams: [
-        { name: "Decatur Central", rating: 86.68 },
-        { name: "Southport", rating: 82.99 },
-        { name: "Center Grove", rating: 80.76 },
-        { name: "Mooresville", rating: 75.10 },
-        { name: "Franklin Central", rating: 73.73 },
-        { name: "Perry Meridian", rating: 71.53 }
-      ]
-    },
-    "Martinsville": {
-      hostDefault: "Martinsville",
-      teams: [
-        { name: "Bloomington North", rating: 87.99 },
-        { name: "Terre Haute North", rating: 84.98 },
-        { name: "Bloomington South", rating: 80.68 },
-        { name: "Martinsville", rating: 72.13 },
-        { name: "Terre Haute South", rating: 63.90 }
-      ]
-    },
-    "Columbus North": {
-      hostDefault: "Columbus North",
-      teams: [
-        { name: "Franklin", rating: 80.48 },
-        { name: "Columbus East", rating: 79.04 },
-        { name: "Columbus North", rating: 78.94 },
-        { name: "Whiteland", rating: 75.77 },
-        { name: "East Central", rating: 64.38 }
-      ]
-    },
-    "Seymour": {
-      hostDefault: "Seymour",
-      teams: [
-        { name: "New Albany", rating: 90.05 },
-        { name: "Jeffersonville", rating: 80.93 },
-        { name: "Floyd Central", rating: 80.30 },
-        { name: "Scottsburg", rating: 72.82 },
-        { name: "Seymour", rating: 71.66 },
-        { name: "Bedford North Lawrence", rating: 67.85 }
-      ]
-    },
-    "Evansville North": {
-      hostDefault: "Evansville North",
-      teams: [
-        { name: "Evansville North", rating: 85.42 },
-        { name: "Evansville Reitz", rating: 72.91 },
-        { name: "Evansville Harrison", rating: 69.59 },
-        { name: "Castle", rating: 64.48 }
-      ]
-    },
-    "Fort Wayne Northrop": {
-      hostDefault: "Fort Wayne Northrop",
-      teams: [
-        { name: "Fort Wayne Snider", rating: 79.81 },
-        { name: "Carroll (Fort Wayne)", rating: 79.00 },
-        { name: "Fort Wayne North", rating: 73.41 },
-        { name: "Fort Wayne Northrop", rating: 60.11 }
-      ]
-    }
-  };
+const SECTIONALS = {
+  "Crown Point": {
+    hostDefault: "Crown Point",
+    teams: [
+      { name: "Crown Point", rating: 95.46 },
+      { name: "Lake Central", rating: 77.50 },
+      { name: "Hammond Central", rating: 60.69 },
+      { name: "Munster", rating: 59.65 },
+      { name: "Hammond Morton", rating: 52.39 }
+    ]
+  },
+
+  "Chesterton": {
+    hostDefault: "Chesterton",
+    teams: [
+      { name: "Chesterton", rating: 90.02 },
+      { name: "Portage", rating: 80.66 },
+      { name: "Valparaiso", rating: 73.02 },
+      { name: "Merrillville", rating: 66.05 },
+      { name: "Hobart", rating: 58.91 }
+    ]
+  },
+
+  "Mishawaka": {
+    hostDefault: "Mishawaka",
+    teams: [
+      { name: "South Bend St. Joseph", rating: 88.68 },
+      { name: "Penn", rating: 88.21 },
+      { name: "South Bend Riley", rating: 83.79 },
+      { name: "Michigan City", rating: 80.31 },
+      { name: "LaPorte", rating: 78.37 },
+      { name: "South Bend Adams", rating: 78.24 },
+      { name: "Mishawaka", rating: 60.69 }
+    ]
+  },
+
+  "Elkhart": {
+    hostDefault: "Elkhart",
+    teams: [
+      { name: "Northridge", rating: 87.20 },
+      { name: "Warsaw", rating: 76.39 },
+      { name: "Goshen", rating: 74.19 },
+      { name: "Elkhart", rating: 72.65 },
+      { name: "Concord", rating: 59.04 }
+    ]
+  },
+
+  "Fort Wayne Northrop": {
+    hostDefault: "Fort Wayne Northrop",
+    teams: [
+      { name: "Fort Wayne Snider", rating: 86.33 },
+      { name: "Carroll (Fort Wayne)", rating: 78.49 },
+      { name: "Fort Wayne North", rating: 73.40 },
+      { name: "Fort Wayne Northrop", rating: 65.32 }
+    ]
+  },
+
+  "Huntington North": {
+    hostDefault: "Huntington North",
+    teams: [
+      { name: "Homestead", rating: 85.24 },
+      { name: "Fort Wayne South", rating: 84.08 },
+      { name: "Huntington North", rating: 80.23 },
+      { name: "Fort Wayne Wayne", rating: 75.68 }
+    ]
+  },
+
+  "Lafayette Jeff": {
+    hostDefault: "Lafayette Jeff",
+    teams: [
+      { name: "Harrison (West Lafayette)", rating: 82.62 },
+      { name: "Kokomo", rating: 78.97 },
+      { name: "Lafayette Jeff", rating: 76.29 },
+      { name: "McCutcheon", rating: 60.46 }
+    ]
+  },
+
+  "Noblesville": {
+    hostDefault: "Noblesville",
+    teams: [
+      { name: "Fishers", rating: 102.36 },
+      { name: "Carmel", rating: 95.58 },
+      { name: "Zionsville", rating: 89.76 },
+      { name: "Westfield", rating: 88.96 },
+      { name: "Hamilton Southeastern", rating: 88.57 },
+      { name: "Noblesville", rating: 87.45 }
+    ]
+  },
+
+  "Greenfield-Central": {
+    hostDefault: "Greenfield-Central",
+    teams: [
+      { name: "Mount Vernon (Fortville)", rating: 94.88 },
+      { name: "Pendleton Heights", rating: 87.85 },
+      { name: "Anderson", rating: 85.69 },
+      { name: "Greenfield-Central", rating: 74.77 },
+      { name: "Muncie Central", rating: 73.35 },
+      { name: "Richmond", rating: 62.29 }
+    ]
+  },
+
+  "Indianapolis Arsenal Tech": {
+    hostDefault: "Indianapolis Arsenal Tech",
+    teams: [
+      { name: "Lawrence North", rating: 93.71 },
+      { name: "Lawrence Central", rating: 83.53 },
+      { name: "North Central (Indianapolis)", rating: 79.89 },
+      { name: "Warren Central", rating: 76.18 },
+      { name: "Indianapolis Arsenal Tech", rating: 70.63 }
+    ]
+  },
+
+  "Plainfield": {
+    hostDefault: "Plainfield",
+    teams: [
+      { name: "Plainfield", rating: 100.12 },
+      { name: "Pike", rating: 98.57 },
+      { name: "Ben Davis", rating: 90.47 },
+      { name: "Brownsburg", rating: 86.12 },
+      { name: "Avon", rating: 79.44 }
+    ]
+  },
+
+  "Mooresville": {
+    hostDefault: "Mooresville",
+    teams: [
+      { name: "Decatur Central", rating: 84.52 },
+      { name: "Franklin Central", rating: 80.08 },
+      { name: "Center Grove", rating: 76.84 },
+      { name: "Southport", rating: 74.92 },
+      { name: "Mooresville", rating: 68.58 },
+      { name: "Perry Meridian", rating: 65.97 }
+    ]
+  },
+
+  "Martinsville": {
+    hostDefault: "Martinsville",
+    teams: [
+      { name: "Terre Haute North", rating: 89.19 },
+      { name: "Bloomington South", rating: 83.31 },
+      { name: "Bloomington North", rating: 78.21 },
+      { name: "Martinsville", rating: 63.91 },
+      { name: "Terre Haute South", rating: 61.10 }
+    ]
+  },
+
+  "Columbus North": {
+    hostDefault: "Columbus North",
+    teams: [
+      { name: "Whiteland", rating: 85.40 },
+      { name: "Columbus North", rating: 79.05 },
+      { name: "Columbus East", rating: 74.32 },
+      { name: "Franklin", rating: 72.71 },
+      { name: "East Central", rating: 71.86 }
+    ]
+  },
+
+  "Seymour": {
+    hostDefault: "Seymour",
+    teams: [
+      { name: "New Albany", rating: 91.06 },
+      { name: "Floyd Central", rating: 81.81 },
+      { name: "Jeffersonville", rating: 78.20 },
+      { name: "Scottsburg", rating: 72.04 },
+      { name: "Bedford North Lawrence", rating: 66.48 },
+      { name: "Seymour", rating: 64.37 }
+    ]
+  },
+
+  "Evansville North": {
+    hostDefault: "Evansville North",
+    teams: [
+      { name: "Evansville North", rating: 83.53 },
+      { name: "Evansville Reitz", rating: 72.20 },
+      { name: "Evansville Harrison", rating: 72.18 },
+      { name: "Castle", rating: 62.25 }
+    ]
+  }
+};
+</script>
 
   const REGIONAL_POTS = {
     north: [
