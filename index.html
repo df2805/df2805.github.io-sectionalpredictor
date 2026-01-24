@@ -514,6 +514,25 @@
 
   function $(id) { return document.getElementById(id); }
 
+  // HELPER: Generates a number on a bell curve (Gaussian distribution)
+  // Used to simulate a team's "Game Day Performance" varying from their average.
+  function gaussianRandom(mean, stdev) {
+    let u = 0, v = 0;
+    while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
+    while (v === 0) v = Math.random();
+    let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+
+    // Cap extreme outliers at 3 standard deviations to keep it realistic
+    if (z > 3) z = 3;
+    if (z < -3) z = -3;
+
+    return z * stdev + mean;
+  }
+
+  // Global object to store manual user adjustments (e.g., {"Penn": -5})
+  // Make sure this is defined at the top of your script with your other let variables
+  let userAdjustments = {};
+
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -856,13 +875,31 @@
 
   function simulateSectionalOnce(gamesLocal, picksLocal, ratingMap, host, adv) {
     const winners = {};
+    const volEl = $("volatility");
+    const vol = volEl ? Number(volEl.value) : 5.0;
+
+    const performMap = {};
+    for (let teamName in ratingMap) {
+      let base = ratingMap[teamName];
+      if (userAdjustments[teamName]) {
+        base += userAdjustments[teamName];
+      }
+      performMap[teamName] = (vol === 0) ? base : gaussianRandom(base, vol);
+    }
+
     for (let i = 0; i < gamesLocal.length; i++) {
       const g = gamesLocal[i];
       const a = resolveTeam(g.a, winners);
       const b = resolveTeam(g.b, winners);
       if (!a || !b) { winners[g.id] = null; continue; }
       if (picksLocal[g.id] === a || picksLocal[g.id] === b) { winners[g.id] = picksLocal[g.id]; continue; }
-      winners[g.id] = (Math.random() < winProbFrom(ratingMap, host, adv, a, b)) ? a : b;
+
+      let diff = performMap[a] - performMap[b];
+      if (host && a === host && b !== host) diff += adv;
+      if (host && b === host && a !== host) diff -= adv;
+
+      const pA = 1 / (1 + Math.pow(10, (-0.25 * diff / 10)));
+      winners[g.id] = (Math.random() < pA) ? a : b;
     }
     const last = gamesLocal[gamesLocal.length - 1];
     return winners[last.id] || null;
@@ -1272,13 +1309,31 @@
 
   function tourSimOneSectional(sec, adv) {
     const winners = {};
+    const volEl = $("volatility");
+    const vol = volEl ? Number(volEl.value) : 5.0;
+
+    const performMap = {};
+    for (let teamName in sec.ratingMap) {
+      let base = sec.ratingMap[teamName];
+      if (userAdjustments[teamName]) {
+        base += userAdjustments[teamName];
+      }
+      performMap[teamName] = (vol === 0) ? base : gaussianRandom(base, vol);
+    }
+
     for (let i = 0; i < sec.games.length; i++) {
       const g = sec.games[i];
       const a = resolveTeam(g.a, winners);
       const b = resolveTeam(g.b, winners);
       if (!a || !b) { winners[g.id] = null; continue; }
       if (sec.picks[g.id] === a || sec.picks[g.id] === b) { winners[g.id] = sec.picks[g.id]; continue; }
-      winners[g.id] = (Math.random() < winProbFrom(sec.ratingMap, sec.host, adv, a, b)) ? a : b;
+
+      let diff = performMap[a] - performMap[b];
+      if (sec.host && a === sec.host && b !== sec.host) diff += adv;
+      if (sec.host && b === sec.host && a !== sec.host) diff -= adv;
+
+      const pA = 1 / (1 + Math.pow(10, (-0.25 * diff / 10)));
+      winners[g.id] = (Math.random() < pA) ? a : b;
     }
     const last = sec.games[sec.games.length - 1];
     return winners[last.id] || null;
