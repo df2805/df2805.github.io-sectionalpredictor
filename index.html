@@ -59,6 +59,14 @@
 
     .left { flex: 1 1 520px; min-width: 280px; max-width: 100%; }
     .right { flex: 1 1 340px; min-width: 280px; max-width: 100%; }
+    .right-col {
+      flex: 1 1 340px;
+      min-width: 280px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
     .btn {
       padding: 8px 10px;
@@ -259,10 +267,17 @@
         <div class="bracket" id="bracket"></div>
       </div>
 
-      <div class="card right">
-        <h3 style="margin:0 0 8px;">Odds</h3>
-        <div class="muted">Odds reflect your locked picks. Unpicked games get simulated from ratings.</div>
-        <div style="margin-top:8px;" id="simOutput"><span class="muted">Run odds to see results.</span></div>
+      <div class="right-col">
+        <div class="card">
+          <h3 style="margin:0 0 8px;">Odds</h3>
+          <div class="muted">Odds reflect your locked picks. Unpicked games get simulated from ratings.</div>
+          <div style="margin-top:8px;" id="simOutput"><span class="muted">Run odds to see results.</span></div>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 8px;">Adjust Team Ratings</h3>
+          <div class="muted">Add manual rating changes, pace stats, and head-to-head overrides.</div>
+          <div style="margin-top:8px;" id="teamAdjList"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -529,6 +544,10 @@
     return z * stdev + mean;
   }
 
+  // Global data stores
+  let userAdjustments = {}; // Rating adjustments
+  let teamStats = {}; // Stores { ppg: 60, opp_ppg: 50 }
+  let h2hOverrides = {}; // Stores specific matchups like "Penn::Mishawaka"
   // Global object to store manual user adjustments (e.g., {"Penn": -5})
   // Make sure this is defined at the top of your script with your other let variables
   let userAdjustments = {};
@@ -820,6 +839,7 @@
     $("drawInfo").textContent = "Pick a sectional and click Generate Draw.";
     $("formatNote").textContent = "";
 
+    renderAdjustments();
     renderSectional();
   }
 
@@ -873,14 +893,163 @@
     }
   }
 
+  function renderAdjustments() {
+    const container = $("teamAdjList");
+    if (!container) return;
+    container.innerHTML = "";
+
+    const table = document.createElement("table");
+    table.style.width = "100%";
+    table.style.fontSize = "12px";
+    table.innerHTML = `
+      <tr style="text-align:left; color:#64748b;">
+        <th>Team</th>
+        <th>Rating +/-</th>
+        <th>Points For</th>
+        <th>Points Agst</th>
+      </tr>
+    `;
+
+    teamList.slice().sort().forEach(function(team) {
+      if (!teamStats[team]) teamStats[team] = { ppg: 0, opp_ppg: 0 };
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td style="font-weight:600; padding:4px 0;">${team}</td>`;
+
+      const tdAdj = document.createElement("td");
+      const inAdj = document.createElement("input");
+      inAdj.type = "number";
+      inAdj.style.width = "50px";
+      inAdj.value = userAdjustments[team] || 0;
+      inAdj.onchange = function (e) {
+        userAdjustments[team] = Number(e.target.value);
+        renderSectional();
+      };
+      tdAdj.appendChild(inAdj);
+      tr.appendChild(tdAdj);
+
+      const tdPPG = document.createElement("td");
+      const inPPG = document.createElement("input");
+      inPPG.type = "number";
+      inPPG.style.width = "50px";
+      inPPG.placeholder = "Avg";
+      inPPG.value = teamStats[team].ppg || "";
+      inPPG.onchange = function (e) { teamStats[team].ppg = Number(e.target.value); };
+      tdPPG.appendChild(inPPG);
+      tr.appendChild(tdPPG);
+
+      const tdOPPG = document.createElement("td");
+      const inOPPG = document.createElement("input");
+      inOPPG.type = "number";
+      inOPPG.style.width = "50px";
+      inOPPG.placeholder = "Avg";
+      inOPPG.value = teamStats[team].opp_ppg || "";
+      inOPPG.onchange = function (e) { teamStats[team].opp_ppg = Number(e.target.value); };
+      tdOPPG.appendChild(inOPPG);
+      tr.appendChild(tdOPPG);
+
+      table.appendChild(tr);
+    });
+
+    container.appendChild(table);
+
+    const h2hDiv = document.createElement("div");
+    h2hDiv.style.marginTop = "16px";
+    h2hDiv.style.paddingTop = "12px";
+    h2hDiv.style.borderTop = "1px solid #e2e8f0";
+    h2hDiv.innerHTML = "<strong>Head-to-Head Override</strong><div class=\"muted\" style=\"margin-bottom:8px;\">Fix a specific matchup (e.g., Team A beats Team B by 5).</div>";
+
+    const row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.gap = "6px";
+    row.style.alignItems = "center";
+
+    const selA = document.createElement("select");
+    const selB = document.createElement("select");
+    teamList.forEach(function(t) {
+      selA.add(new Option(t, t));
+      selB.add(new Option(t, t));
+    });
+
+    const inVal = document.createElement("input");
+    inVal.type = "number";
+    inVal.placeholder = "+/- Pts";
+    inVal.style.width = "70px";
+
+    const addBtn = document.createElement("button");
+    addBtn.className = "btn";
+    addBtn.textContent = "Add Rule";
+    addBtn.onclick = function () {
+      const a = selA.value;
+      const b = selB.value;
+      const v = Number(inVal.value);
+      if (a === b || !v) return;
+
+      const key = [a, b].sort().join("::");
+      const isOrder = a < b;
+      h2hOverrides[key] = isOrder ? v : -v;
+      renderH2HList();
+      renderSectional();
+    };
+
+    row.appendChild(selA);
+    row.appendChild(document.createTextNode(" vs "));
+    row.appendChild(selB);
+    row.appendChild(inVal);
+    row.appendChild(addBtn);
+    h2hDiv.appendChild(row);
+
+    const list = document.createElement("div");
+    list.id = "h2hList";
+    list.style.marginTop = "8px";
+    h2hDiv.appendChild(list);
+
+    container.appendChild(h2hDiv);
+    renderH2HList();
+  }
+
+  function renderH2HList() {
+    const list = $("h2hList");
+    if (!list) return;
+    list.innerHTML = "";
+
+    Object.keys(h2hOverrides).forEach(function(key) {
+      const parts = key.split("::");
+      const t1 = parts[0];
+      const t2 = parts[1];
+      const val = h2hOverrides[key];
+
+      const tag = document.createElement("div");
+      tag.className = "pill";
+      tag.style.marginBottom = "4px";
+      tag.style.background = "#e0f2fe";
+      tag.style.color = "#0369a1";
+
+      let text = "";
+      if (val > 0) text = `${t1} beats ${t2} by ${val}`;
+      else text = `${t2} beats ${t1} by ${Math.abs(val)}`;
+
+      tag.innerHTML = `${text} <span style="cursor:pointer; margin-left:8px; opacity:0.6;">✕</span>`;
+      tag.querySelector("span").onclick = function () {
+        delete h2hOverrides[key];
+        renderH2HList();
+        renderSectional();
+      };
+      list.appendChild(tag);
+    });
+  }
+
   function simulateSectionalOnce(gamesLocal, picksLocal, ratingMap, host, adv) {
     const winners = {};
     const volEl = $("volatility");
+    const baseVol = volEl ? Number(volEl.value) : 5.0;
     const vol = volEl ? Number(volEl.value) : 5.0;
 
     const performMap = {};
     for (let teamName in ratingMap) {
       let base = ratingMap[teamName];
+      if (userAdjustments[teamName]) base += userAdjustments[teamName];
+      performMap[teamName] = (baseVol === 0) ? base : gaussianRandom(base, baseVol);
       if (userAdjustments[teamName]) {
         base += userAdjustments[teamName];
       }
@@ -894,9 +1063,31 @@
       if (!a || !b) { winners[g.id] = null; continue; }
       if (picksLocal[g.id] === a || picksLocal[g.id] === b) { winners[g.id] = picksLocal[g.id]; continue; }
 
+      const h2hKey = [a, b].sort().join("::");
+      let h2hBonus = 0;
+      if (h2hOverrides[h2hKey] !== undefined) {
+        h2hBonus = (a < b) ? h2hOverrides[h2hKey] : -h2hOverrides[h2hKey];
+      }
+
+      let gameVolModifier = 1.0;
+      const statsA = teamStats[a];
+      const statsB = teamStats[b];
+
+      if (statsA && statsB && statsA.ppg > 0 && statsB.ppg > 0) {
+        const avgGameScore = (statsA.ppg + statsB.ppg) / 2;
+        if (avgGameScore > 65) gameVolModifier = 1.25;
+        else if (avgGameScore < 45) gameVolModifier = 0.8;
+      }
+
       let diff = performMap[a] - performMap[b];
       if (host && a === host && b !== host) diff += adv;
       if (host && b === host && a !== host) diff -= adv;
+
+      diff += h2hBonus;
+
+      if (gameVolModifier > 1.0) {
+        diff += (Math.random() * 6 - 3);
+      }
 
       const pA = 1 / (1 + Math.pow(10, (-0.25 * diff / 10)));
       winners[g.id] = (Math.random() < pA) ? a : b;
