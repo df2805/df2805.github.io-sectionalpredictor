@@ -1063,12 +1063,17 @@
     const winners = {};
     const volEl = $("volatility");
     const baseVol = volEl ? Number(volEl.value) : 5.0;
+    const vol = volEl ? Number(volEl.value) : 5.0;
 
     const performMap = {};
     for (let teamName in ratingMap) {
       let base = ratingMap[teamName];
       if (userAdjustments[teamName]) base += userAdjustments[teamName];
       performMap[teamName] = (baseVol === 0) ? base : gaussianRandom(base, baseVol);
+      if (userAdjustments[teamName]) {
+        base += userAdjustments[teamName];
+      }
+      performMap[teamName] = (vol === 0) ? base : gaussianRandom(base, vol);
     }
 
     for (let i = 0; i < gamesLocal.length; i++) {
