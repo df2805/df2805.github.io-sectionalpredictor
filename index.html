@@ -566,6 +566,9 @@
   let userAdjustments = {}; // Rating adjustments
   let teamStats = {}; // Stores { ppg: 60, opp_ppg: 50 }
   let h2hOverrides = {}; // Stores specific matchups like "Penn::Mishawaka"
+  // Global object to store manual user adjustments (e.g., {"Penn": -5})
+  // Make sure this is defined at the top of your script with your other let variables
+  let userAdjustments = {};
 
   function shuffle(arr) {
     const a = arr.slice();
@@ -1058,12 +1061,17 @@
     const winners = {};
     const volEl = $("volatility");
     const baseVol = volEl ? Number(volEl.value) : 5.0;
+    const vol = volEl ? Number(volEl.value) : 5.0;
 
     const performMap = {};
     for (let teamName in ratingMap) {
       let base = ratingMap[teamName];
       if (userAdjustments[teamName]) base += userAdjustments[teamName];
       performMap[teamName] = (baseVol === 0) ? base : gaussianRandom(base, baseVol);
+      if (userAdjustments[teamName]) {
+        base += userAdjustments[teamName];
+      }
+      performMap[teamName] = (vol === 0) ? base : gaussianRandom(base, vol);
     }
 
     for (let i = 0; i < gamesLocal.length; i++) {
