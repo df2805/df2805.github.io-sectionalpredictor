@@ -120,6 +120,11 @@
       position: relative;
       z-index: 2;
     }
+    .controls select,
+    .controls button {
+      position: relative;
+      z-index: 4;
+    }
     .pill {
       display: inline-flex;
       align-items: center;
@@ -566,9 +571,6 @@
   let userAdjustments = {}; // Rating adjustments
   let teamStats = {}; // Stores { ppg: 60, opp_ppg: 50 }
   let h2hOverrides = {}; // Stores specific matchups like "Penn::Mishawaka"
-  // Global object to store manual user adjustments (e.g., {"Penn": -5})
-  // Make sure this is defined at the top of your script with your other let variables
-  let userAdjustments = {};
 
   function shuffle(arr) {
     const a = arr.slice();
